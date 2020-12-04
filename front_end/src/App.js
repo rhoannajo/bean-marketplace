@@ -9,20 +9,25 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <h1>Final Project App</h1>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
+      {/* <h1>Final Project App</h1> */}
+      <div class="bg-white">
+        <a href="/">
+            <img id="logo" class="mw-10" src={require('./images/WhipTraderLogo.png')} alt=""></img>
+        </a>
+      </div>
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <Link class="nav-link" to="/">Home</Link>
           </li>
-          <li>
-            <Link to="/admin">Admin</Link>
+          <li class="nav-item">
+            <Link class="nav-link" to="/admin">Admin</Link>
           </li>
-          <li>
-            <Link to="/feed">Feed</Link>
+          <li class="nav-item">
+            <Link class="nav-link" to="/feed">Feed</Link>
           </li>
         </ul>
-      </nav>
+      </nav>      
       <Switch>
         <Route path="/admin">
           <Admin />
@@ -34,6 +39,15 @@ function App() {
           <Home />
         </Route>
       </Switch>
+
+            {/* including bootstrap css library */}
+            <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+        crossOrigin="anonymous"
+      >
+      </link>
     </div>
   );
 }
