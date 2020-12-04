@@ -7,6 +7,7 @@ import './App.css';
 
 // React components
 function App() {
+  document.title="WhipTrader"
   return (
     <div className="App">
       {/* <h1>Final Project App</h1> */}
