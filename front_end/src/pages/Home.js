@@ -10,7 +10,10 @@ function Home() {
 
   return (
     <div>
-      <h2>Home Page</h2>
+      <h2 class="p-1 beanColor">
+        Welcome to Bean Marketplace
+      </h2>
+      <h4>Home Page</h4>
     </div>
   );
 }

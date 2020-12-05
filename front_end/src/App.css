@@ -7,13 +7,17 @@ background-position:0 0, 40px 40px;
 }
 
 #logo {
-  max-width: 12.5%;
-  max-height: 7em;
-  padding: 0.5%;
+  max-width: 25%;
+  max-height: 3em;
 }
 
-#page {
-  padding: 1em;
+.beanColor {
+  color: DarkSlateBlue;
+}
+
+.beanButton {
+  background-color: DarkSlateBlue !important;
+  color: white !important;
 }
 
 .App {
