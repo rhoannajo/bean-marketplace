@@ -7,6 +7,7 @@ import './App.css';
 
 // React components
 function App() {
+  
   document.title='Bean Marketplace';
   return (
     <div className="App">
