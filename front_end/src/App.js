@@ -18,7 +18,7 @@ function App() {
       </div>
       <nav class="navbar navbar-expand bg-dark navbar-dark border-top border-black">
         <ul class="navbar-nav">
-          <li id="home" class="nav-item active">
+          <li id="home" class="nav-item">
             <Link class="nav-link mx-auto" to="/">Home</Link>
           </li>
           <li id="admin"class="nav-item">

@@ -1,12 +1,12 @@
 import React from 'react';
 
 function Admin() {
-  var navLink = document.getElementById("admin");
-  if(navLink){
+  // set active nav link on page load
+  React.useEffect(() => {
     document.getElementById("home").classList.remove('active');
     document.getElementById("admin").classList.add('active');
     document.getElementById("feed").classList.remove('active');
-  }
+  }, []);
   
   // state variables
   const [title, setTitle] = React.useState('');
