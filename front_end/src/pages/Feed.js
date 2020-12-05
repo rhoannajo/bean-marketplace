@@ -1,12 +1,12 @@
 import React from 'react';
 
 function Feed() {
-  var navLink = document.getElementById("feed");
-  if(navLink){
+  // set active nav link on page load
+  React.useEffect(() => {
     document.getElementById("home").classList.remove('active');
     document.getElementById("admin").classList.remove('active');
     document.getElementById("feed").classList.add('active');
-  }
+  }, []);
 
   return (
     <div>
