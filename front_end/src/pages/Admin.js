@@ -1,11 +1,11 @@
 import React from "react";
 
+const websocket = new WebSocket('ws://localhost:1234/ws');
+
 const uuidv4 = require("uuid/v4"); // used to create random ids for each listing
 
-const websocket = new WebSocket("ws://localhost:1234/ws");
-
 function Admin() {
-  // set active nav link on page load
+  // // set active nav link on page load
   React.useEffect(() => {
     document.getElementById("home").classList.remove("active");
     document.getElementById("admin").classList.add("active");
@@ -19,18 +19,22 @@ function Admin() {
   const [description, setDescription] = React.useState("");
 
   function getCookie(key) {
-    const regex = new RegExp(`/(?:(?:^|.*;\s*)${key}\s*\=\s*([^;]*).*$)|^.*$/, "$1"`);
-    return document.cookie.replace(regex);
+    // using regex to extract a cookie's value
+    const regex = new RegExp(
+      `/(?:(?:^|.*;s*)${key}s*=s*([^;]*).*$)|^.*$/, "$1"`
+    );
+    return document.cookie.replace(regex).replace(`${key}=`, "");
   }
 
   function deleteCookie(key) {
-    document.cookie = key + '=; Max-Age=0';
+    // setting a cookie to expire, such as user's listing deleted
+    document.cookie = key + "=;Max-Age=0";
     window.location.reload(false);
   }
 
   function handleSubmit() {
     let uuid = uuidv4(); // creating a random id for users listing
-    document.cookie = 'postId=' + uuid + 'Max-Age=86400'; // storing postId in a cookies
+    document.cookie = "postId=" + uuid + ";Max-Age=86400"; // storing postId in a cookie, expires in 24 hours
     let listing = {
       title: title,
       type: type,
@@ -41,17 +45,31 @@ function Admin() {
     alert(JSON.stringify(listing));
   }
 
+  /////
+
+  // state variable
+  const [message, setMessage] = React.useState("");
+
+  function handleClick() {
+    // just to test
+    // alert(message);
+
+    // create network call (js client call)
+    setMessage("");
+    // fetch(`/storeNote?note=${message}`)
+    //   .then(getMessages); // looks like method ref
+    websocket.send(title);
+  }
+
   return (
     <div>
       <h2 class="p-1">Admin Page</h2>
       <div class="p-3">
         {(() => {
-          if (
-            getCookie('postId') === ""
-          ) {
+          if (getCookie("postId") === "") {
             return (
               <form
-                onSubmit={handleSubmit}
+                onSubmit={handleClick}
                 id="listingForm"
                 class="mx-auto text-left card p-3 bg-light"
               >
@@ -132,10 +150,10 @@ function Admin() {
                 <h4>
                   Edit Listing<br></br>*Need to Implement*
                 </h4>
-                <p>listing ID = {getCookie('postId')}</p>
+                <p>listing ID = {getCookie("postId")}</p>
                 <div className="text-center">
                   <button
-                    onClick={() => deleteCookie('postId')}
+                    onClick={() => deleteCookie("postId")}
                     type="button"
                     id="deleteListing"
                     class="btn btn-danger"
