@@ -13,7 +13,7 @@ function Home() {
       <h2 class="p-1">Home Page</h2>
       <h4 class="p-1 beanColor">Welcome to Bean Marketplace</h4>
       <div class="p-3">
-        <img class="w-100"src={require("../images/frontPage.jpg")}></img>
+        <img class="w-100 border border-dark rounded" src={require("../images/frontPage.jpg")}></img>
       </div>
     </div>
   );
