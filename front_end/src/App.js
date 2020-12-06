@@ -1,18 +1,24 @@
-import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-import Admin from './pages/Admin';
-import Feed from './pages/Feed';
-import Home from './pages/Home';
-import './App.css';
+import React from "react";
+import { Switch, Route, Link } from "react-router-dom";
+import Admin from "./pages/Admin";
+import Feed from "./pages/Feed";
+import Home from "./pages/Home";
+import "./App.css";
 
-const websocket = new WebSocket('ws://localhost:1234/ws');
+const websocket = new WebSocket("ws://localhost:1234/ws");
 
 // React components
 function App() {
-  
-  document.title='Bean Marketplace';
+  document.title = "Bean Marketplace";
   return (
     <div className="App">
+      {/* including bootstrap css library */}
+      <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+        crossOrigin="anonymous"
+      ></link>
       {/* <h1>Final Project App</h1> */}
       <div class="bg-dark">
         <a href="/">
@@ -54,14 +60,6 @@ function App() {
           <Home />
         </Route>
       </Switch>
-
-      {/* including bootstrap css library */}
-      <link
-        rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-        crossOrigin="anonymous"
-      ></link>
     </div>
   );
 }
