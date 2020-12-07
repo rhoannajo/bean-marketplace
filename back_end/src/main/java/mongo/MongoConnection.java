@@ -23,7 +23,7 @@ public class MongoConnection {
     // open connection
     mongoClient = new MongoClient("localhost", 27017);
     // get ref to database
-    database = mongoClient.getDatabase("MyDatabase");
+    database = mongoClient.getDatabase("BeanMarketplace");
     database = database.withCodecRegistry(pojoCodecRegistry);
   }
 

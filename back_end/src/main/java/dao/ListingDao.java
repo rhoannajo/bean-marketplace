@@ -21,7 +21,7 @@ implements DataAccessObject<ListingDto> {
 
   public void bindCollection(){
     // get collection instance here
-    instance.collection = mongoConnection.getCollection("MyCollection", ListingDto.class);
+    instance.collection = mongoConnection.getCollection("BeanCollection", ListingDto.class);
   }
 
   public static ListingDao getInstance(){

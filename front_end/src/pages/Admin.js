@@ -23,7 +23,7 @@ function Admin() {
 
   function getCookie(key) {
     const regex = new RegExp(`/(?:(?:^|.*;\s*)${key}\s*\=\s*([^;]*).*$)|^.*$/, "$1"`);
-    return document.cookie.replace(regex);
+    return document.cookie.replace(regex).replace(`${key}\=`, "");
   }
 
   function deleteCookie(key) {
@@ -33,7 +33,7 @@ function Admin() {
 
   function handleSubmit() {
     let uuid = uuidv4(); // creating a random id for users listing
-    document.cookie = 'postId=' + uuid + 'Max-Age=86400'; // storing postId in a cookies
+    document.cookie = 'postId=' + uuid + '; Max-Age=86400'; // storing postId in a cookies
     let listing = {
       title: title,
       type: type,
@@ -55,7 +55,7 @@ function Admin() {
     setDescription('');
 
     setPostId(uuidv4()); // creating a random id for users listing
-    document.cookie = 'postId=' + postId + 'Max-Age=86400'; // storing postId in a cookies
+    document.cookie = 'postId=' + uuidv4() + '; Max-Age=86400'; // storing postId in a cookies
  
     websocket.send("Listings Updated");
     // alert('handled '+ title);
@@ -154,7 +154,7 @@ function Admin() {
 
                 <div className="text-center">
                   <button type="submit" id="submit" class="btn beanButton">
-                    <b>Submit</b>
+                    <b><i class="fa fa-paper-plane"></i> Submit</b>
                   </button>
                 </div>
               </form>
@@ -173,7 +173,7 @@ function Admin() {
                     id="deleteListing"
                     class="btn btn-danger"
                   >
-                    <b>Delete</b>
+                    <b><i class="fa fa-trash"></i> Delete</b>
                   </button>
                 </div>
               </div>

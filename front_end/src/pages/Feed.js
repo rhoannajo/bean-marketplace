@@ -22,11 +22,12 @@ function Feed() {
   }, []);
 
   const handleWebsocketMessage = (messageEvent) => {
-    alert("websocket message recieved");
+    //alert("websocket message recieved");
     // console.log(messageEvent);
     // const newMessages = JSON.parse(messageEvent.data);
     // setMessages(newMessages);
     loadListings();
+    alert();
     // this.refresh();
     document.getElementById('feedLink').click();
   };
@@ -65,15 +66,29 @@ function Feed() {
         </form>
         <div class="mx-auto card bg-light my-3 px-3 py-1 text-center">
           <h2>Listings:</h2>
-          {listings.slice(0).reverse().map((item) => (
-            <div class="mx-3 my-1 card bg-body">
-              <h5>{item.title}</h5>
-              <hr class="p-0 m-0"></hr>
-              <span>{item.type}</span>
-              <span>${item.price}</span>
-              <span>{item.description}</span>
+          <div class="container-fluid">
+            <div class="row">
+              {listings
+                .slice(0)
+                .reverse()
+                .map((item) => (
+                  <div class="col-md-3 text-center">
+                    <div class="mx-1 my-2 card bg-body">
+                      <h5>{item.title}</h5>
+                      <hr class="p-0 m-0"></hr>
+                      <span class="caps">
+                        <i
+                          class={`fa fa-${item.type} fa-lg typeColor ${item.type}Color`}
+                        ></i>{" "}
+                        {item.type}
+                      </span>
+                      <span>${item.price}</span>
+                      <span>{item.description}</span>
+                    </div>
+                  </div>
+                ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>
