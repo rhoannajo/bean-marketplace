@@ -2,9 +2,9 @@ package dto;
 
 public class BaseDto {
 
-    public String entryId;
+  public String entryId;
 
-    public BaseDto(String id) {
-        this.entryId = id;
-    }
+  public BaseDto(String id) {
+    this.entryId = id;
+  }
 }

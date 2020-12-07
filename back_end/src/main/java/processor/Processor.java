@@ -5,5 +5,5 @@ import parser.ParsedUrl;
 
 public interface Processor {
 
-    public ResponseDto process(ParsedUrl parsedUrl, String body);
+  public ResponseDto process(ParsedUrl parsedUrl, String body);
 }

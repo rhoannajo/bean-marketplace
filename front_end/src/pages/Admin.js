@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 
 const uuidv4 = require("uuid/v4"); // used to create random ids for each listing
 
@@ -17,6 +18,8 @@ function Admin() {
   const [type, setType] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [description, setDescription] = React.useState("");
+
+  const [message, setMessage] = React.useState("");
 
   function getCookie(key) {
     const regex = new RegExp(`/(?:(?:^|.*;\s*)${key}\s*\=\s*([^;]*).*$)|^.*$/, "$1"`);
@@ -39,6 +42,30 @@ function Admin() {
       id: uuid,
     };
     alert(JSON.stringify(listing));
+    setMessage('dfbvsdfb');
+    websocket.send(JSON.stringify(listing));
+    handleClick();
+  }
+
+  function handleClick(){ // handling submit for the listing form
+    postListing(); // post request the inputted listing
+
+    setTitle(''); // reset state variable after submitting
+    setType('');
+    setPrice('');
+    setDescription('');
+
+    // loadListings(); // refresh the listings after a new one is added 
+  }
+
+  function postListing(){ // adds a new listing
+    axios.post('/api/createListing', {
+      title: title,
+      type: type,
+      price: price,
+      description: description
+    });
+    // alert('handled '+ title);
   }
 
   return (
@@ -100,6 +127,7 @@ function Admin() {
                   </label>
                   <input
                     required
+                    type="number"
                     id="input-price"
                     class="form-control"
                     value={price}
@@ -112,6 +140,7 @@ function Admin() {
                     <b>Description:</b>
                   </label>
                   <input
+                    required
                     id="input-description"
                     class="form-control"
                     value={description}
@@ -140,7 +169,7 @@ function Admin() {
                     id="deleteListing"
                     class="btn btn-danger"
                   >
-                    <b>Submit</b>
+                    <b>Delete</b>
                   </button>
                 </div>
               </div>

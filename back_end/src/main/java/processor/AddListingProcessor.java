@@ -1,21 +1,26 @@
 package processor;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
+//import com.sun.tools.javac.util.List;
+import dao.DataAccessObject;
 import dao.ListingDao;
 import dto.ListingDto;
 import dto.ResponseDto;
-import java.util.Date;
+
+import java.util.*;
+
 import parser.ParsedUrl;
 
 public class AddListingProcessor implements Processor{
 
-    private static Gson gson = new Gson();
+  private static Gson gson = new Gson();
 
-    @Override
-    public ResponseDto process(ParsedUrl parsedUrl, String body) {
-        ListingDto dto = gson.fromJson(body, ListingDto.class);
-        ListingDao listingDao = ListingDao.getInstance();
-        listingDao.put(dto);
-        return new ResponseDto(new Date(), listingDao.getItems(), Boolean.TRUE);
-    }
+  @Override
+  public ResponseDto process(ParsedUrl parsedUrl, String body) {
+    ListingDao lDao = ListingDao.getInstance();
+    ListingDto lDto = gson.fromJson(body, ListingDto.class);
+    List<ListingDto> list = new ArrayList<>();
+    list.add(lDao.put(lDto));
+    return new ResponseDto(new Date(), list, true);
+  }
 }

@@ -36,7 +36,7 @@ public class WebSocketHandler {
     public void closed(Session session, int statusCode, String reason){
         // clears session
         sessionMap.remove(session);
-        System.out.println("Client disconnected!");
+        System.out.println("Client disconnected");
     }
 
     @OnWebSocketMessage

@@ -5,14 +5,14 @@ import java.util.List;
 
 public interface DataAccessObject<T extends BaseDto> {
 
-    static DataAccessObject getInstance(){
-        throw new RuntimeException("not implemented");
-    }
+  static DataAccessObject getInstance(){
+    throw new RuntimeException("not implemented");
+  }
 
-    T put(T item);
+  T put(T item);
 
-    List<T> getItems();
+  List<T> getItems();
 
-    void delete(String id);
+  void delete(String id);
 
 }
