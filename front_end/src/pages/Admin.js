@@ -173,7 +173,7 @@ function Admin() {
                     id="deleteListing"
                     class="btn btn-danger"
                   >
-                    <b><i class="fa fa-trash"></i> Delete</b>
+                    <b><i class="fa fa-trash fa-lg"></i> Delete</b>
                   </button>
                 </div>
               </div>
