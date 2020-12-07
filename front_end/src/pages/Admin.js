@@ -1,6 +1,9 @@
 import React from "react";
 import axios from 'axios';
 
+// *** Noticing weird issue with posts not going through on Safari
+// Maybe Switch from axios to "http" or another library
+
 const uuidv4 = require("uuid/v4"); // used to create random ids for each listing
 
 const websocket = new WebSocket("ws://localhost:1234/ws");
