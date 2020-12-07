@@ -37,6 +37,10 @@ background-position:0 0, 40px 40px;
   color: white !important;
 }
 
+.postListingButton {
+  display:none;
+}
+
 .App {
   text-align: center;
 }

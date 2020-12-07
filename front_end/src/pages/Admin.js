@@ -156,8 +156,15 @@ function Admin() {
                 </div>
 
                 <div className="text-center">
-                  <button type="submit" id="submit" class="btn beanButton">
-                    <b><i class="fa fa-paper-plane"></i> Submit</b>
+                  <button
+                    type="button"
+                    onClick={handleClick}
+                    id="submit"
+                    class="btn beanButton"
+                  >
+                    <b>
+                      <i class="fa fa-paper-plane"></i> Submit
+                    </b>
                   </button>
                 </div>
               </form>
