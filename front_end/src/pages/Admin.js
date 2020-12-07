@@ -18,8 +18,8 @@ function Admin() {
   const [type, setType] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [description, setDescription] = React.useState("");
+  const [postId, setPostId] = React.useState("");
 
-  const [message, setMessage] = React.useState("");
 
   function getCookie(key) {
     const regex = new RegExp(`/(?:(?:^|.*;\s*)${key}\s*\=\s*([^;]*).*$)|^.*$/, "$1"`);
@@ -42,9 +42,8 @@ function Admin() {
       id: uuid,
     };
     alert(JSON.stringify(listing));
-    setMessage('dfbvsdfb');
     websocket.send(JSON.stringify(listing));
-    handleClick();
+    //handleClick();
   }
 
   function handleClick(){ // handling submit for the listing form
@@ -54,6 +53,12 @@ function Admin() {
     setType('');
     setPrice('');
     setDescription('');
+
+    setPostId(uuidv4()); // creating a random id for users listing
+    document.cookie = 'postId=' + postId + 'Max-Age=86400'; // storing postId in a cookies
+ 
+    websocket.send("Listings Updated");
+    // alert('handled '+ title);
 
     // loadListings(); // refresh the listings after a new one is added 
   }
@@ -65,7 +70,6 @@ function Admin() {
       price: price,
       description: description
     });
-    // alert('handled '+ title);
   }
 
   return (
@@ -78,7 +82,7 @@ function Admin() {
           ) {
             return (
               <form
-                onSubmit={handleSubmit}
+                onSubmit={handleClick}
                 id="listingForm"
                 class="mx-auto text-left card p-3 bg-light"
               >

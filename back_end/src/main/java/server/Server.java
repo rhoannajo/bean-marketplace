@@ -6,7 +6,11 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import pointofsale.ListingService;
+
+import static spark.Spark.*;
 
 public class Server {
 

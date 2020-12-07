@@ -43,7 +43,7 @@ function App() {
             </Link>
           </li>
           <li id="feed" class="nav-item">
-            <Link class="nav-link" to="/feed">
+            <Link id="feedLink" class="nav-link" to="/feed">
               Feed
             </Link>
           </li>

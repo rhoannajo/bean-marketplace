@@ -1,11 +1,13 @@
 import React from "react";
 import axios from 'axios';
 
-const websocket = new WebSocket("ws://localhost:12345/ws");
+const websocket = new WebSocket("ws://localhost:1234/ws");
 
 function Feed() {
   const [messages, setMessages] = React.useState([""]);
   const [listings, setListings] = React.useState([""]);
+
+  // const [message, setMessage] = React.useState("");
 
   // const [filter, setFilter] = React.useState();
 
@@ -20,9 +22,13 @@ function Feed() {
   }, []);
 
   const handleWebsocketMessage = (messageEvent) => {
-    console.log(messageEvent);
-    const newMessages = JSON.parse(messageEvent.data);
-    setMessages(newMessages);
+    alert("websocket message recieved");
+    // console.log(messageEvent);
+    // const newMessages = JSON.parse(messageEvent.data);
+    // setMessages(newMessages);
+    loadListings();
+    // this.refresh();
+    document.getElementById('feedLink').click();
   };
 
   // function getMessages() {
@@ -42,6 +48,7 @@ function Feed() {
   return (
     <div>
       <h2 class="p-1">Feed Page</h2>
+      {/* <button onClick={send()}>button</button> */}
       <div class="p-3">
         <form class="mx-auto text-left card bg-light px-3 py-1">
           <div class="form-group">
