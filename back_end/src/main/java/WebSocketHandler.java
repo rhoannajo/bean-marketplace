@@ -46,7 +46,7 @@ public class WebSocketHandler {
         messages.add(message);
         //triggers broadcast
         Gson gson = new Gson();
-        broadcast(gson.toJson(messages));
+        broadcast(message);
     }
 
     @OnWebSocketError

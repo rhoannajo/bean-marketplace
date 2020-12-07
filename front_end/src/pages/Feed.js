@@ -1,5 +1,5 @@
 import React from "react";
-import axios from 'axios';
+import axios from "axios";
 
 const websocket = new WebSocket("ws://localhost:1234/ws");
 
@@ -22,14 +22,18 @@ function Feed() {
   }, []);
 
   const handleWebsocketMessage = (messageEvent) => {
-    //alert("websocket message recieved");
-    // console.log(messageEvent);
-    // const newMessages = JSON.parse(messageEvent.data);
-    // setMessages(newMessages);
-    loadListings();
-    alert();
-    // this.refresh();
-    document.getElementById('feedLink').click();
+    // alert(JSON.stringify(messageEvent.data));
+
+    if (JSON.stringify(messageEvent.data) == "\"Listings Updated\"") {
+      //alert(messageEvent);
+      // console.log(messageEvent);
+      // const newMessages = JSON.parse(messageEvent.data);
+      // setMessages(newMessages);
+      loadListings();
+      // this.refresh();
+       document.getElementById('feedLink').click();
+      //window.location.reload(false);
+    }
   };
 
   // function getMessages() {
@@ -38,12 +42,13 @@ function Feed() {
   //     .then((data) => setMessages(data)); // also async
   // }
 
-  function loadListings(){ // get all the listings to display on the webpage
-    axios.get('/api/viewListings')
-      .then(function (response) { // doing something with the response
-        // alert(response.data.items);
-        setListings(response.data.items); // store the listings in the state variable array 'listings'
-      });
+  function loadListings() {
+    // get all the listings to display on the webpage
+    axios.get("/api/viewListings").then(function (response) {
+      // doing something with the response
+      // alert(response.data.items);
+      setListings(response.data.items); // store the listings in the state variable array 'listings'
+    });
   }
 
   return (
