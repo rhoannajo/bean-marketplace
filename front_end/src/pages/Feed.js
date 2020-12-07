@@ -77,7 +77,7 @@ function Feed() {
                 .slice(0)
                 .reverse()
                 .map((item) => (
-                  <div class="col-md-3 text-center">
+                  <div class="col-sm-12 col-md-6 col-xl-3 text-center">
                     <div class="mx-1 my-2 card bg-body">
                       <h5>{item.title}</h5>
                       <hr class="p-0 m-0"></hr>
