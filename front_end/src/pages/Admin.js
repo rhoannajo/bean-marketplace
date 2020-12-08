@@ -50,17 +50,15 @@ function Admin() {
   }
 
   function validation() {
-    var title = document.forms["form-group"].title.value;
-    var price = document.forms["form-group"]["input-price"].id.value;
-    var description =
-      document.forms["form-group"]["input-description"].id.value;
-
     if (title === null || title === "") {
       alert("Please insert a title!");
       return false;
     }
     if (price === null || price === "") {
       alert("Please insert a price!");
+      return false;
+    }else if (price >= 2147483647){
+      alert("The price is too big!");
       return false;
     }
     if (description === null || description === "") {
