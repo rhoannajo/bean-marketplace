@@ -46,7 +46,7 @@ function Feed() {
     // get all the listings to display on the webpage
     axios.get("/api/viewListings").then(function (response) {
       // doing something with the response
-      // alert(response.data.items);
+      // alert(JSON(response));
       setListings(response.data.items); // store the listings in the state variable array 'listings'
     });
   }

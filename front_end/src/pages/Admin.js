@@ -14,6 +14,10 @@ function Admin() {
     document.getElementById("home").classList.remove("active");
     document.getElementById("admin").classList.add("active");
     document.getElementById("feed").classList.remove("active");
+    setTitle(window.localStorage.getItem('title'));
+    setType(window.localStorage.getItem('type'));
+    setPrice(window.localStorage.getItem('price'));
+    setDescription(window.localStorage.getItem('description'));
   }, []);
 
   // state variables
@@ -63,10 +67,10 @@ function Admin() {
     //if(status === true){
     postListing(); // post request the inputted listing
 
-    setTitle(""); // reset state variable after submitting
-    setType("");
-    setPrice("");
-    setDescription("");
+    // setTitle(""); // reset state variable after submitting
+    // setType("");
+    // setPrice("");
+    // setDescription("");
 
     // setPostId(uuidv4()); // creating a random id for users listing
     // document.cookie = 'postId=' + uuidv4() + '; Max-Age=86400'; // storing postId in a cookies
@@ -89,7 +93,12 @@ function Admin() {
         // alert(JSON.stringify(response));
       })
       .then(function () {
-        document.cookie = "postId=" + id + "; Max-Age=86400"; // storing postId in a cookies
+        document.cookie = "postId=" + id + "; Max-Age=86400"; // storing posted listing in cookies
+        window.localStorage.setItem("title",title)
+        window.localStorage.setItem("type",type)
+        window.localStorage.setItem("price",price)
+        window.localStorage.setItem("description",description)
+
         window.location.reload(false);
       });
   }
@@ -105,7 +114,7 @@ function Admin() {
         deleteCookie("postId");
         websocket.send("Listings Updated");
       });
-
+      window.localStorage.clear();
   }
 
   return (
@@ -203,7 +212,92 @@ function Admin() {
             );
           } else {
             return (
-              <div class="mx-auto card p-3 bg-light">
+              <div class="">
+                              <form
+                // onSubmit={handleClick}
+                id="listingForm"
+                class="mx-auto text-left card p-3 bg-light"
+              >
+                <h4 className="text-center">
+                  <b>
+            <u>Edit Listing</u>
+                  </b>
+                </h4>
+
+                <div className="form-group">
+                  <label htmlFor="input-title">
+                    <b>Title:</b>
+                  </label>
+                  <input
+                    required
+                    id="input-title"
+                    class="form-control"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="input-type">
+                    <b>Type:</b>
+                  </label>
+                  <select
+                    required
+                    class="form-control"
+                    id="input-type"
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                  >
+                    <option value="" selected disabled hidden>
+                      Select a Type
+                    </option>
+                    <option value="tops">Tops</option>
+                    <option value="outerwear">Outerwear</option>
+                    <option value="bottoms">Bottoms</option>
+                    <option value="footwear">Footwear</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="input-price">
+                    <b>Price:</b>
+                  </label>
+                  <input
+                    required
+                    type="number"
+                    id="input-price"
+                    class="form-control"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="input-description">
+                    <b>Description:</b>
+                  </label>
+                  <input
+                    required
+                    id="input-description"
+                    class="form-control"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </div>
+
+                <div className="text-center">
+                  <button
+                    type="button"
+                    onClick={handleClick}
+                    id="submit"
+                    class="btn beanButton"
+                  >
+                    <b>
+                      <i class="fa fa-paper-plane"></i> Submit
+                    </b>
+                  </button>
+                </div>
+              </form>
                 <h4>
                   Edit Listing<br></br>*Need to Implement*
                 </h4>
