@@ -57,7 +57,7 @@ function Admin() {
     if (price === null || price === "") {
       alert("Please insert a price!");
       return false;
-    }else if (price >= 2147483647){
+    }else if (price > 2147483647){
       alert("The price is too big!");
       return false;
     }
