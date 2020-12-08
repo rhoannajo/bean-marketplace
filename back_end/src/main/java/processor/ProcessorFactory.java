@@ -18,6 +18,8 @@ public class ProcessorFactory {
         }
       case "/api/deleteListing":
         return new DeleteListingProcessor();
+      case "/api/editListing":
+        return new EditListingProcessor();
       default:
         return new ErrorProcessor();
     }
