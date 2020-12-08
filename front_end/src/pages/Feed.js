@@ -63,9 +63,10 @@ function Feed() {
             </label>
             <select class="form-control" id="filterType">
               <option>All</option>
-              <option>Cars</option>
-              <option>Trucks</option>
-              <option>Motorcycles</option>
+              <option>Tops</option>
+              <option>Outerwear</option>
+              <option>Bottoms</option>
+              <option>Footwear</option>
             </select>
           </div>
         </form>

@@ -158,9 +158,10 @@ function Admin() {
                     <option value="" selected disabled hidden>
                       Select a Type
                     </option>
-                    <option value="car">Car</option>
-                    <option value="truck">Truck</option>
-                    <option value="motorcycle">Motorcycle</option>
+                    <option value="tops">Tops</option>
+                    <option value="outerwear">Outerwear</option>
+                    <option value="bottoms">Bottoms</option>
+                    <option value="footwear">Footwear</option>
                   </select>
                 </div>
 
