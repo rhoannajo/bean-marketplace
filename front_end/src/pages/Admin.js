@@ -117,6 +117,11 @@ function Admin() {
       window.localStorage.clear();
   }
 
+  function editListing() {
+    deleteListing();
+    postListing();
+  }
+
   return (
     <div>
       <h2 class="p-1">Admin Page</h2>
@@ -288,7 +293,7 @@ function Admin() {
                 <div className="text-center">
                   <button
                     type="button"
-                    onClick={handleClick}
+                    onClick={editListing}
                     id="submit"
                     class="btn beanButton"
                   >
@@ -296,13 +301,7 @@ function Admin() {
                       <i class="fa fa-paper-plane"></i> Submit
                     </b>
                   </button>
-                </div>
-              </form>
-                <h4>
-                  Edit Listing<br></br>*Need to Implement*
-                </h4>
-                <p>listing ID = {getCookie("postId")}</p>
-                <div className="text-center">
+                  &nbsp;
                   <button
                     onClick={() => deleteListing()}
                     type="button"
@@ -314,6 +313,8 @@ function Admin() {
                     </b>
                   </button>
                 </div>
+              </form>
+
               </div>
             );
           }
