@@ -49,21 +49,57 @@ function Admin() {
     //handleClick();
   }
 
-  function handleClick(){ // handling submit for the listing form
-    postListing(); // post request the inputted listing
+  function validation(){
+    var title = document.forms["form-group"].title.value;
+    var price = document.forms['form-group']['input-price'].id.value;
+    var description = document.forms['form-group']['input-description'].id.value;
 
-    setTitle(''); // reset state variable after submitting
-    setType('');
-    setPrice('');
-    setDescription('');
+    if(title === null || title === ""){
+      alert("Please insert a title!");
+      return false;
+    }
+    if(price === null || price === ""){
+      alert("Please insert a price!");
+      return false;
+    }
+    if(description === null || description === ""){
+      alert("Please insert a description!");
+      return false;
+    }
+    return true;
+
+  }
+
+  function handleClick(){ // handling submit for the listing form
+    var status = validation();
+
+    if(status === true){
+      postListing(); // post request the inputted listing
+
+      setTitle(''); // reset state variable after submitting
+      setType('');
+      setPrice('');
+      setDescription('');
 
     setPostId(uuidv4()); // creating a random id for users listing
     document.cookie = 'postId=' + uuidv4() + '; Max-Age=86400'; // storing postId in a cookies
  
     websocket.send("Listings Updated");
-    // alert('handled '+ title);
+    }
+    // postListing(); // post request the inputted listing
 
-    // loadListings(); // refresh the listings after a new one is added 
+    // setTitle(''); // reset state variable after submitting
+    // setType('');
+    // setPrice('');
+    // setDescription('');
+
+    // setPostId(uuidv4()); // creating a random id for users listing
+    // document.cookie = 'postId=' + uuidv4() + '; Max-Age=86400'; // storing postId in a cookies
+ 
+    // websocket.send("Listings Updated");
+    // // alert('handled '+ title);
+
+    // // loadListings(); // refresh the listings after a new one is added 
   }
 
   function postListing(){ // adds a new listing
