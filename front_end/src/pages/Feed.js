@@ -83,9 +83,9 @@ function Feed() {
                       <h5>{item.title}</h5>
                       <hr class="p-0 m-0"></hr>
                       <span class="caps">
-                        <i
+                        {/* <i
                           class={`fa fa-${item.type} fa-lg typeColor ${item.type}Color`}
-                        ></i>{" "}
+                        ></i>{" "} */}
                         {item.type}
                       </span>
                       <span>${item.price}</span>

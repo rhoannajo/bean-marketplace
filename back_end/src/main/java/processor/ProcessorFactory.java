@@ -5,7 +5,7 @@ import parser.ParsedUrl;
 public class ProcessorFactory {
 
   public Processor getProcessor(ParsedUrl parsedUrl){
-    String parts[] = parsedUrl.getPath().split("\\?");
+    String parts[] = parsedUrl.getPath().split("/\\?");
     String path = parts[0];
     switch (path){
       case "/api/createListing":

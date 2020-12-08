@@ -44,7 +44,7 @@ function App() {
             </Link>
           </li>
           <li id="admin" class="nav-item">
-            <Link class="nav-link" to="/admin">
+            <Link id="adminLink" class="nav-link" to="/admin">
               Admin
             </Link>
           </li>

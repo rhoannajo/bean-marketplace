@@ -86,11 +86,26 @@ function Admin() {
       })
       .then(function (response) {
         id = response.data.items[0].entryId;
+        // alert(JSON.stringify(response));
       })
       .then(function () {
         document.cookie = "postId=" + id + "; Max-Age=86400"; // storing postId in a cookies
         window.location.reload(false);
       });
+  }
+
+  function deleteListing() {
+    // removes a listing
+    axios
+      .post(`/api/deleteListing/?id=${getCookie('postId')}`)
+      .then(function (response) {
+        // alert(JSON.stringify(response));
+      })
+      .then(function () {
+        deleteCookie("postId");
+        websocket.send("Listings Updated");
+      });
+
   }
 
   return (
@@ -195,7 +210,7 @@ function Admin() {
                 <p>listing ID = {getCookie("postId")}</p>
                 <div className="text-center">
                   <button
-                    onClick={() => deleteCookie("postId")}
+                    onClick={() => deleteListing()}
                     type="button"
                     id="deleteListing"
                     class="btn btn-danger"
