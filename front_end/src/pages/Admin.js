@@ -331,75 +331,75 @@ function Admin() {
         })()}
       </div>
       <div class="w-100">
-                  <Popup modal trigger={<button id="listed">Listed</button>}>
-                    <div class="container h-100 d-flex justify-content-center text-center">
-                      <div class="jumbotron my-auto beanPopUp border border-dark p-4">
-                        <button
-                          type="button"
-                          class="btn topRight"
-                          onClick={() => closePopUp('listed')}
-                        >
-                          <i class="fa fa-times-circle fa-lg text-danger"></i>
-                        </button>
-                        <i class="fa fa-check fa-3x text-success"></i>
-                        <h2 class="display-5 py-1 px-1">
-                          Listing: {window.localStorage.getItem("title")} Added!
-                        </h2>
-                        <h6 class="display-5 px-1 pb-2">
-                          PostId: {getCookie("postId")}
-                        </h6>
-                        <a
-                          class="btn btn-warning"
-                          href="/admin"
-                        >
-                          {" "}
-                          <i class="fa fa-edit fa-lg"></i> Edit Listing
-                        </a>
-                        &nbsp;
-                        <a
-                          class="btn btn-primary"
-                          href="/feed"
-                        >
-                          <i class="fa fa-eye fa-lg"></i> View Feed
-                        </a>
-                      </div>
-                    </div>
-                  </Popup>
-                  <Popup modal trigger={<button id="deleted">Deleted</button>}>
-                    <div class="container h-100 d-flex justify-content-center text-center">
-                      <div class="jumbotron my-auto beanPopUp border border-dark p-4">
-                        <button
-                          type="button"
-                          class="btn topRight"
-                          onClick={() => closePopUp('deleted')}
-                        >
-                          <i class="fa fa-times-circle fa-lg text-danger"></i>
-                        </button>
-                        <i class="fa fa-trash fa-3x text-danger"></i>
-                        <h2 class="display-5 py-1 px-1">
-                          Listing: {window.localStorage.getItem("deletedTitle")} Deleted!
-                        </h2>
-                        <h6 class="display-5 px-1 pb-2">
-                          PostId: {window.localStorage.getItem("deletedPostId")}
-                        </h6>
-                        <a
-                          class="btn btn-warning"
-                          href="/admin"
-                        >
-                          {" "}
-                          <i class="fa fa-trash fa-lg"></i> Post Listing
-                        </a>
-                        &nbsp;
-                        <a
-                          class="btn btn-primary"
-                          href="/feed"
-                        >
-                          <i class="fa fa-eye fa-lg"></i> View Feed
-                        </a>
-                      </div>
-                    </div>
-                  </Popup>
-                </div>
+        <Popup
+          modal
+          trigger={
+            <button hidden id="listed">
+              Listed
+            </button>
+          }
+        >
+          <div class="container h-100 d-flex justify-content-center text-center">
+            <div class="jumbotron my-auto beanPopUp border border-dark p-4">
+              <button
+                type="button"
+                class="btn topRight"
+                onClick={() => closePopUp("listed")}
+              >
+                <i class="fa fa-times-circle fa-lg text-danger"></i>
+              </button>
+              <i class="fa fa-check fa-3x text-success"></i>
+              <h2 class="display-5 py-1 px-1">
+                Listing: {window.localStorage.getItem("title")} Added!
+              </h2>
+              <h6 class="display-5 px-1 pb-2">PostId: {getCookie("postId")}</h6>
+              <a class="btn btn-warning" href="/admin">
+                {" "}
+                <i class="fa fa-edit fa-lg"></i> Edit Listing
+              </a>
+              &nbsp;
+              <a class="btn btn-primary" href="/feed">
+                <i class="fa fa-eye fa-lg"></i> View Feed
+              </a>
+            </div>
+          </div>
+        </Popup>
+        <Popup
+          modal
+          trigger={
+            <button hidden id="deleted">
+              Deleted
+            </button>
+          }
+        >
+          <div class="container h-100 d-flex justify-content-center text-center">
+            <div class="jumbotron my-auto beanPopUp border border-dark p-4">
+              <button
+                type="button"
+                class="btn topRight"
+                onClick={() => closePopUp("deleted")}
+              >
+                <i class="fa fa-times-circle fa-lg text-danger"></i>
+              </button>
+              <i class="fa fa-trash fa-3x text-danger"></i>
+              <h2 class="display-5 py-1 px-1">
+                Listing: {window.localStorage.getItem("deletedTitle")} Deleted!
+              </h2>
+              <h6 class="display-5 px-1 pb-2">
+                PostId: {window.localStorage.getItem("deletedPostId")}
+              </h6>
+              <a class="btn btn-warning" href="/admin">
+                {" "}
+                <i class="fa fa-trash fa-lg"></i> Post Listing
+              </a>
+              &nbsp;
+              <a class="btn btn-primary" href="/feed">
+                <i class="fa fa-eye fa-lg"></i> View Feed
+              </a>
+            </div>
+          </div>
+        </Popup>
+      </div>
     </div>
   );
 }
