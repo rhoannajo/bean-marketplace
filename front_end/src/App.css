@@ -37,8 +37,18 @@ background-position:0 0, 40px 40px;
   color: white !important;
 }
 
+.beanPopUp {
+  background-color: #dad8e7 !important;
+}
+
 .postListingButton {
   display:none;
+}
+
+.topRight {
+  position: absolute;
+  top: 4px;
+  right: 19px;
 }
 
 .App {

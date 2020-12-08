@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 
+import Popup from "reactjs-popup";
+
 // *** Noticing weird issue with posts not going through on Safari
 // Maybe Switch from axios to "http" or another library
 
@@ -14,10 +16,16 @@ function Admin() {
     document.getElementById("home").classList.remove("active");
     document.getElementById("admin").classList.add("active");
     document.getElementById("feed").classList.remove("active");
-    setTitle(window.localStorage.getItem('title'));
-    setType(window.localStorage.getItem('type'));
-    setPrice(window.localStorage.getItem('price'));
-    setDescription(window.localStorage.getItem('description'));
+    setTitle(window.localStorage.getItem("title"));
+    setType(window.localStorage.getItem("type"));
+    setPrice(window.localStorage.getItem("price"));
+    setDescription(window.localStorage.getItem("description"));
+
+    if (window.localStorage.getItem("popUp") == "listed") {
+      document.getElementById("listed").click();
+      window.localStorage.setItem("popUp", "");
+    } else if (window.localStorage.getItem("popUp") == "deleted") {
+    }
   }, []);
 
   // state variables
@@ -60,24 +68,6 @@ function Admin() {
     return true;
   }
 
-  function handleClick() {
-    // handling submit for the listing form
-    //var status = validation();
-
-    //if(status === true){
-    postListing(); // post request the inputted listing
-
-    // setTitle(""); // reset state variable after submitting
-    // setType("");
-    // setPrice("");
-    // setDescription("");
-
-    // setPostId(uuidv4()); // creating a random id for users listing
-    // document.cookie = 'postId=' + uuidv4() + '; Max-Age=86400'; // storing postId in a cookies
-
-    websocket.send("Listings Updated");
-  }
-
   function postListing() {
     // adds a new listing
     let id;
@@ -94,32 +84,42 @@ function Admin() {
       })
       .then(function () {
         document.cookie = "postId=" + id + "; Max-Age=86400"; // storing posted listing in cookies
-        window.localStorage.setItem("title",title)
-        window.localStorage.setItem("type",type)
-        window.localStorage.setItem("price",price)
-        window.localStorage.setItem("description",description)
+        window.localStorage.setItem("title", title);
+        window.localStorage.setItem("type", type);
+        window.localStorage.setItem("price", price);
+        window.localStorage.setItem("description", description);
+
+        window.localStorage.setItem("popUp", "listed");
+
+        websocket.send("Listings Updated");
 
         window.location.reload(false);
+        // document.getElementById('listed').click();
       });
   }
 
   function deleteListing() {
     // removes a listing
     axios
-      .post(`/api/deleteListing/?id=${getCookie('postId')}`)
+      .post(`/api/deleteListing/?id=${getCookie("postId")}`)
       .then(function (response) {
         // alert(JSON.stringify(response));
       })
       .then(function () {
         deleteCookie("postId");
         websocket.send("Listings Updated");
+        window.localStorage.clear();
       });
-      window.localStorage.clear();
   }
 
   function editListing() {
     deleteListing();
     postListing();
+  }
+
+  function closePopUp() {
+    window.localStorage.setItem("popUp", "");
+    document.getElementById("listed").click();
   }
 
   return (
@@ -204,7 +204,7 @@ function Admin() {
                 <div className="text-center">
                   <button
                     type="button"
-                    onClick={handleClick}
+                    onClick={() => postListing()}
                     id="submit"
                     class="btn beanButton"
                   >
@@ -218,103 +218,124 @@ function Admin() {
           } else {
             return (
               <div class="">
-                              <form
-                // onSubmit={handleClick}
-                id="listingForm"
-                class="mx-auto text-left card p-3 bg-light"
-              >
-                <h4 className="text-center">
-                  <b>
-            <u>Edit Listing</u>
-                  </b>
-                </h4>
-
-                <div className="form-group">
-                  <label htmlFor="input-title">
-                    <b>Title:</b>
-                  </label>
-                  <input
-                    required
-                    id="input-title"
-                    class="form-control"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="input-type">
-                    <b>Type:</b>
-                  </label>
-                  <select
-                    required
-                    class="form-control"
-                    id="input-type"
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                  >
-                    <option value="" selected disabled hidden>
-                      Select a Type
-                    </option>
-                    <option value="tops">Tops</option>
-                    <option value="outerwear">Outerwear</option>
-                    <option value="bottoms">Bottoms</option>
-                    <option value="footwear">Footwear</option>
-                  </select>
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="input-price">
-                    <b>Price:</b>
-                  </label>
-                  <input
-                    required
-                    type="number"
-                    id="input-price"
-                    class="form-control"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="input-description">
-                    <b>Description:</b>
-                  </label>
-                  <input
-                    required
-                    id="input-description"
-                    class="form-control"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </div>
-
-                <div className="text-center">
-                  <button
-                    type="button"
-                    onClick={editListing}
-                    id="submit"
-                    class="btn beanButton"
-                  >
+                <form
+                  // onSubmit={handleClick}
+                  id="listingForm"
+                  class="mx-auto text-left card p-3 bg-light"
+                >
+                  <h4 className="text-center">
                     <b>
-                      <i class="fa fa-paper-plane"></i> Submit
+                      <u>Edit Listing</u>
                     </b>
-                  </button>
-                  &nbsp;
-                  <button
-                    onClick={() => deleteListing()}
-                    type="button"
-                    id="deleteListing"
-                    class="btn btn-danger"
-                  >
-                    <b>
-                      <i class="fa fa-trash fa-lg"></i> Delete
-                    </b>
-                  </button>
-                </div>
-              </form>
+                  </h4>
 
+                  <div className="form-group">
+                    <label htmlFor="input-title">
+                      <b>Title:</b>
+                    </label>
+                    <input
+                      required
+                      id="input-title"
+                      class="form-control"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="input-type">
+                      <b>Type:</b>
+                    </label>
+                    <select
+                      required
+                      class="form-control"
+                      id="input-type"
+                      value={type}
+                      onChange={(e) => setType(e.target.value)}
+                    >
+                      <option value="" selected disabled hidden>
+                        Select a Type
+                      </option>
+                      <option value="tops">Tops</option>
+                      <option value="outerwear">Outerwear</option>
+                      <option value="bottoms">Bottoms</option>
+                      <option value="footwear">Footwear</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="input-price">
+                      <b>Price:</b>
+                    </label>
+                    <input
+                      required
+                      type="number"
+                      id="input-price"
+                      class="form-control"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="input-description">
+                      <b>Description:</b>
+                    </label>
+                    <input
+                      required
+                      id="input-description"
+                      class="form-control"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      onClick={editListing}
+                      id="submit"
+                      class="btn beanButton"
+                    >
+                      <b>
+                        <i class="fa fa-paper-plane"></i> Submit
+                      </b>
+                    </button>
+                    &nbsp;
+                    <button
+                      onClick={() => deleteListing()}
+                      type="button"
+                      id="deleteListing"
+                      class="btn btn-danger"
+                    >
+                      <b>
+                        <i class="fa fa-trash fa-lg"></i> Delete
+                      </b>
+                    </button>
+                  </div>
+                </form>
+                <div class="w-100">
+                  <Popup modal trigger={<button hidden id="listed">Click Me</button>}>
+                    <div class="container h-100 d-flex justify-content-center text-center">
+                      <div class="jumbotron my-auto beanPopUp border border-dark p-4">
+                        <button
+                          type="button"
+                          class="btn topRight"
+                          onClick={() => closePopUp()}
+                        >
+                          <i class="fa fa-times-circle fa-lg text-danger"></i>
+                        </button>
+                        <i class="fa fa-check fa-3x text-success"></i>
+                        <h2 class="display-5 py-1 px-1">
+                          Listing: {window.localStorage.getItem("title")} Added!
+                        </h2>
+                        <h6 class="display-5 px-1">
+                          PostId: {getCookie("postId")}
+                        </h6>
+                      </div>
+                    </div>
+                  </Popup>
+                </div>
               </div>
             );
           }
