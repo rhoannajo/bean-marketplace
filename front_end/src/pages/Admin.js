@@ -1,5 +1,5 @@
 import React from "react";
-import axios from 'axios';
+import axios from "axios";
 
 // *** Noticing weird issue with posts not going through on Safari
 // Maybe Switch from axios to "http" or another library
@@ -23,80 +23,74 @@ function Admin() {
   const [description, setDescription] = React.useState("");
   const [postId, setPostId] = React.useState("");
 
-
   function getCookie(key) {
-    const regex = new RegExp(`/(?:(?:^|.*;\s*)${key}\s*\=\s*([^;]*).*$)|^.*$/, "$1"`);
-    return document.cookie.replace(regex).replace(`${key}\=`, "");
+    const regex = new RegExp(
+      `/(?:(?:^|.*;s*)${key}s*=s*([^;]*).*$)|^.*$/, "$1"`
+    );
+    return document.cookie.replace(regex).replace(`${key}=`, "");
   }
 
   function deleteCookie(key) {
-    document.cookie = key + '=; Max-Age=0';
+    document.cookie = key + "=; Max-Age=0";
     window.location.reload(false);
   }
 
-  function handleSubmit() {
-    let uuid = uuidv4(); // creating a random id for users listing
-    document.cookie = 'postId=' + uuid + '; Max-Age=86400'; // storing postId in a cookies
-    let listing = {
-      title: title,
-      type: type,
-      price: price,
-      description: description,
-      id: uuid,
-    };
-    alert(JSON.stringify(listing));
-    websocket.send(JSON.stringify(listing));
-    //handleClick();
-  }
+  function validation() {
+    var title = document.forms["form-group"].title.value;
+    var price = document.forms["form-group"]["input-price"].id.value;
+    var description =
+      document.forms["form-group"]["input-description"].id.value;
 
-  function validation(){
-    if(title === null || title === ""){
+    if (title === null || title === "") {
       alert("Please insert a title!");
       return false;
     }
-    if(type === null || type ===""){
-      alert("Please select a type!");
-      return false;
-    }
-    if(price === null || price === ""){
+    if (price === null || price === "") {
       alert("Please insert a price!");
       return false;
     }
-    if(description === null || description === ""){
+    if (description === null || description === "") {
       alert("Please insert a description!");
       return false;
     }
     return true;
-
   }
 
-  function handleClick(){ // handling submit for the listing form
-    var status = validation();
+  function handleClick() {
+    // handling submit for the listing form
+    //var status = validation();
 
-    if(status === true){
-      postListing(); // post request the inputted listing
+    //if(status === true){
+    postListing(); // post request the inputted listing
 
-      setTitle(''); // reset state variable after submitting
-      setType('');
-      setPrice('');
-      setDescription('');
+    setTitle(""); // reset state variable after submitting
+    setType("");
+    setPrice("");
+    setDescription("");
 
-    setPostId(uuidv4()); // creating a random id for users listing
-    document.cookie = 'postId=' + uuidv4() + '; Max-Age=86400'; // storing postId in a cookies
- 
+    // setPostId(uuidv4()); // creating a random id for users listing
+    // document.cookie = 'postId=' + uuidv4() + '; Max-Age=86400'; // storing postId in a cookies
+
     websocket.send("Listings Updated");
-    // alert('handled '+ title);
-    // loadListings(); // refresh the listings after a new one is added 
-    }
   }
 
-  function postListing(){ // adds a new listing
-    axios.post('/api/createListing', {
-      title: title,
-      type: type,
-      price: price,
-      description: description
-    });
+  function postListing() {
+    // adds a new listing
+    let id;
+    axios
+      .post("/api/createListing", {
+        title: title,
+        type: type,
+        price: price,
+        description: description,
+      })
+      .then(function (response) {
+        id = response.data.items[0].entryId;
+      })
+      .then(function () {
+        document.cookie = "postId=" + id + "; Max-Age=86400"; // storing postId in a cookies
+        window.location.reload(false);
+      });
   }
 
   return (
@@ -104,12 +98,10 @@ function Admin() {
       <h2 class="p-1">Admin Page</h2>
       <div class="p-3">
         {(() => {
-          if (
-            getCookie('postId') === ""
-          ) {
+          if (getCookie("postId") === "") {
             return (
               <form
-                onSubmit={handleClick}
+                // onSubmit={handleClick}
                 id="listingForm"
                 class="mx-auto text-left card p-3 bg-light"
               >
@@ -200,15 +192,17 @@ function Admin() {
                 <h4>
                   Edit Listing<br></br>*Need to Implement*
                 </h4>
-                <p>listing ID = {getCookie('postId')}</p>
+                <p>listing ID = {getCookie("postId")}</p>
                 <div className="text-center">
                   <button
-                    onClick={() => deleteCookie('postId')}
+                    onClick={() => deleteCookie("postId")}
                     type="button"
                     id="deleteListing"
                     class="btn btn-danger"
                   >
-                    <b><i class="fa fa-trash fa-lg"></i> Delete</b>
+                    <b>
+                      <i class="fa fa-trash fa-lg"></i> Delete
+                    </b>
                   </button>
                 </div>
               </div>
