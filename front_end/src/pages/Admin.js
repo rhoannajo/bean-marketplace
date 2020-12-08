@@ -178,9 +178,9 @@ function Admin() {
                     <option value="" selected disabled hidden>
                       Select a Type
                     </option>
-                    <option value="tops">Tops</option>
+                    <option value="tops">Top</option>
                     <option value="outerwear">Outerwear</option>
-                    <option value="bottoms">Bottoms</option>
+                    <option value="bottoms">Bottom</option>
                     <option value="footwear">Footwear</option>
                   </select>
                 </div>
@@ -331,14 +331,7 @@ function Admin() {
         })()}
       </div>
       <div class="w-100">
-        <Popup
-          modal
-          trigger={
-            <button hidden id="listed">
-              Listed
-            </button>
-          }
-        >
+        <Popup modal trigger={<button  id="listed">Listed</button>}>
           <div class="container h-100 d-flex justify-content-center text-center">
             <div class="jumbotron my-auto beanPopUp border border-dark p-4">
               <button
