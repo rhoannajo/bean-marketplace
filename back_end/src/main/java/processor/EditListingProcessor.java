@@ -18,7 +18,6 @@ public class EditListingProcessor implements Processor {
         // get id, delete and replace/add into same list
         ListingDao lDao = ListingDao.getInstance();
         lDao.delete(parsedUrl.getValue("id"));
-        //return new ResponseDto(new Date(), new ArrayList(), true);
         ListingDto lDto = gson.fromJson(body, ListingDto.class);
         List<ListingDto> list = new ArrayList<>();
         list.add(lDao.put(lDto));
