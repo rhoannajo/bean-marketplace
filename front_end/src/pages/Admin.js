@@ -27,6 +27,9 @@ function Admin() {
     } else if (window.localStorage.getItem("popUp") == "deleted") {
       document.getElementById("deleted").click();
       window.localStorage.setItem("popUp", "");
+    } else if (window.localStorage.getItem("popUp") == "edited") {
+      document.getElementById("edited").click();
+      window.localStorage.setItem("popUp", "");
     }
   }, []);
 
@@ -64,7 +67,7 @@ function Admin() {
       alert("Please insert a valid number!");
       return false;
     } else if (price <= 0) {
-      alert("Please insert a price over $0");
+      alert("Please insert a price over $0!");
       return false;
     } else if (price > 2147483647) {
       alert(("Please insert a lower price, the maximum is $2,147,483,647!"));
@@ -78,7 +81,7 @@ function Admin() {
 
   function postListing() {
     //validates input fields are not empty and correct
-    var status = validation();
+    let status = validation();
 
     if(status === true){
       // adds a new listing
@@ -135,8 +138,40 @@ function Admin() {
   }
 
   function editListing() {
-    deleteListing();
-    postListing();
+    let id;
+    let status = validation();
+    if(status === true){
+      let ls = window.localStorage;
+      if (title===ls.getItem('title') && type===ls.getItem('type') && price===ls.getItem('price') && description===ls.getItem('description')) {
+        alert('Please make a change to update your listing!')
+      }
+    axios
+      .post(`/api/editListing/?id=${getCookie('postId')}`, {
+        title: title,
+        type: type,
+        price: price,
+        description: description,
+        entryId: getCookie('postId')
+      })
+      .then(function (response) {
+        id = response.data.items[0].entryId;
+        // alert(JSON.stringify(response.data.items[0].entryId) +' '+getCookie('postId'));
+      })
+      .then(function () {
+        document.cookie = "postId=" + id + "; Max-Age=86400"; // storing posted listing in cookies
+        window.localStorage.setItem("title", title);
+        window.localStorage.setItem("type", type);
+        window.localStorage.setItem("price", price);
+        window.localStorage.setItem("description", description);
+
+        window.localStorage.setItem("popUp", "edited");
+
+        websocket.send("Listings Updated");
+
+        window.location.reload(false);
+        // document.getElementById('listed').click();
+      });
+    }
   }
 
   function closePopUp(name) {
@@ -315,12 +350,12 @@ function Admin() {
                   <div className="text-center">
                     <button
                       type="button"
-                      onClick={editListing}
-                      id="submit"
+                      onClick={() => editListing()}
+                      id="submitEdit"
                       class="btn beanButton"
                     >
                       <b>
-                        <i class="fa fa-paper-edit"></i> Submit
+                        <i class="fa fa-pencil"></i> Update
                       </b>
                     </button>
                     &nbsp;
@@ -357,7 +392,7 @@ function Admin() {
               <h2 class="display-5 py-1 px-1">
                 Listing: {window.localStorage.getItem("title")} Added!
               </h2>
-              <h6 class="display-5 px-1 pb-2">PostId: {getCookie("postId")}</h6>
+              <h6 class="display-5 px-1 pb-2">Post Id: {getCookie("postId")}</h6>
               <a class="btn btn-warning" href="/admin">
                 {" "}
                 <i class="fa fa-edit fa-lg"></i> Edit Listing
@@ -391,11 +426,46 @@ function Admin() {
                 Listing: {window.localStorage.getItem("deletedTitle")} Deleted!
               </h2>
               <h6 class="display-5 px-1 pb-2">
-                PostId: {window.localStorage.getItem("deletedPostId")}
+                Post Id: {window.localStorage.getItem("deletedPostId")}
               </h6>
               <a class="btn btn-warning" href="/admin">
                 {" "}
                 <i class="fa fa-trash fa-lg"></i> Post Listing
+              </a>
+              &nbsp;
+              <a class="btn btn-primary" href="/feed">
+                <i class="fa fa-eye fa-lg"></i> View Feed
+              </a>
+            </div>
+          </div>
+        </Popup>
+        <Popup
+          modal
+          trigger={
+            <button hidden id="edited">
+              Deleted
+            </button>
+          }
+        >
+          <div class="container h-100 d-flex justify-content-center text-center">
+            <div class="jumbotron my-auto beanPopUp border border-dark p-4">
+              <button
+                type="button"
+                class="btn topRight"
+                onClick={() => closePopUp("edited")}
+              >
+                <i class="fa fa-times-circle fa-lg text-danger"></i>
+              </button>
+              <i class="fa fa-pencil fa-3x text-success"></i>
+              <h2 class="display-5 py-1 px-1">
+                Listing: {window.localStorage.getItem("title")} Edited!
+              </h2>
+              <h6 class="display-5 px-1 pb-2">
+                Post Id: {getCookie('postId')}
+              </h6>
+              <a class="btn btn-warning" href="/admin">
+                {" "}
+                <i class="fa fa-edit fa-lg"></i> Edit Listing
               </a>
               &nbsp;
               <a class="btn btn-primary" href="/feed">
