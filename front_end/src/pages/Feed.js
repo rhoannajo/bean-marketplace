@@ -4,51 +4,55 @@ import axios from "axios";
 const websocket = new WebSocket("ws://localhost:1234/ws");
 
 function Feed() {
-  const [messages, setMessages] = React.useState([""]);
+  // state variables
   const [listings, setListings] = React.useState([""]);
+  const [filter, setFilter] = React.useState("");
 
-  // const [message, setMessage] = React.useState("");
-
-  // const [filter, setFilter] = React.useState();
-
-  // set active nav link on page load
   React.useEffect(() => {
-    loadListings();
+    loadListings(); // load listings on page load
+
+    // setting the correct active tab in navbar
     document.getElementById("home").classList.remove("active");
     document.getElementById("admin").classList.remove("active");
     document.getElementById("feed").classList.add("active");
-    // Trigger getMessages when the page loads
+
+    // filling the filter dropdown with last value
+    setFilter(window.localStorage.getItem("filter"));
+
+    // listener to update feed when listings are updated
     websocket.addEventListener("message", handleWebsocketMessage);
   }, []);
 
   const handleWebsocketMessage = (messageEvent) => {
-    // alert(JSON.stringify(messageEvent.data));
-
-    if (JSON.stringify(messageEvent.data) == "\"Listings Updated\"") {
-      //alert(messageEvent);
-      // console.log(messageEvent);
-      // const newMessages = JSON.parse(messageEvent.data);
-      // setMessages(newMessages);
+    if (JSON.stringify(messageEvent.data) == '"Listings Updated"') {
       loadListings();
-      // this.refresh();
-       document.getElementById('feedLink').click();
-      //window.location.reload(false);
+      document.getElementById("feedLink").click(); // refreshing the page by clicking the navbar link
     }
   };
 
-  // function getMessages() {
-  //   fetch(`/getNotes`)
-  //     .then((res) => res.json()) // async (parse json)
-  //     .then((data) => setMessages(data)); // also async
-  // }
-
   function loadListings() {
-    // get all the listings to display on the webpage
+    // get all the listings to display in the feed
     axios.get("/api/viewListings").then(function (response) {
-      // doing something with the response
-      // alert(JSON(response));
       setListings(response.data.items); // store the listings in the state variable array 'listings'
     });
+  }
+
+  function filterListings() {
+    // get filtered listings to display in the feed
+
+    // use filter type in the api.post url to get filtered results
+    let filterType = window.localStorage.getItem('filter');
+
+    alert(filterType); 
+
+    // Change below to filter by query string args like for deleteListing in admin
+
+    // query args should look like `/?type= filterType
+    // you can refer to the deleteListing in admin.js to see an example
+    
+    // axios.get("/api/viewListings").then(function (response) {
+    //   setListings(response.data.items); // store the listings in the state variable array 'listings'
+    // });
   }
 
   return (
@@ -61,12 +65,24 @@ function Feed() {
             <label for="filterType">
               <b>Filter by Type:</b>
             </label>
-            <select class="form-control" id="filterType">
-              <option>All</option>
-              <option>Tops</option>
-              <option>Outerwear</option>
-              <option>Bottoms</option>
-              <option>Footwear</option>
+            <select
+              id= "selectFilter"
+              onChange={(e) => {
+                setFilter(e.target.value);
+                window.localStorage.setItem("filter", e.target.value);
+                filterListings();
+              }}
+              class="form-control"
+              id="filterType"
+              value={filter}
+            >
+              <option value="" selected>
+                All
+              </option>
+              <option value="tops">Tops</option>
+              <option value="outerwear">Outerwear</option>
+              <option value="bottoms">Bottoms</option>
+              <option value="footwear">Footwear</option>
             </select>
           </div>
         </form>
