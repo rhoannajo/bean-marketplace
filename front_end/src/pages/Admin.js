@@ -122,8 +122,34 @@ function Admin() {
   }
 
   function editListing() {
-    deleteListing();
-    postListing();
+    //deleteListing();
+    //postListing();
+    let id;
+    axios
+      .post('/api/editListing/')
+      .then(function () {
+        id = getCookie("postId");
+        deleteCookie("postId");
+        window.localStorage.clear();
+        window.localStorage.setItem("id", id);
+      })
+      .then(function (response) {
+        id = response.data.items[0].entryId;
+      })
+      .then(function () {
+        document.cookie = "postId=" + id + "; Max-Age=86400"; // storing posted listing in cookies
+        window.localStorage.setItem("title", title);
+        window.localStorage.setItem("type", type);
+        window.localStorage.setItem("price", price);
+        window.localStorage.setItem("description", description);
+
+        window.localStorage.setItem("popUp", "listed");
+
+        websocket.send("Listings Updated");
+
+        window.location.reload(false);
+      });
+
   }
 
   function closePopUp(name) {
@@ -302,7 +328,7 @@ function Admin() {
                   <div className="text-center">
                     <button
                       type="button"
-                      onClick={editListing}
+                      onClick={() => editListing()}
                       id="submit"
                       class="btn beanButton"
                     >
