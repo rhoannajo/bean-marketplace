@@ -32,28 +32,23 @@ function Feed() {
 
   function loadListings() {
     // get all the listings to display in the feed
-    axios.get("/api/viewListings").then(function (response) {
-      setListings(response.data.items); // store the listings in the state variable array 'listings'
-    });
-  }
-
-  function filterListings() {
-    // get filtered listings to display in the feed
-
-    // use filter type in the api.post url to get filtered results
     let filterType = window.localStorage.getItem('filter');
-
-    alert('selected type = '+filterType); 
-
-    // Change below to filter by query string args like for deleteListing in admin
-
-    // query args should look like `/?type= filterType
-    // you can refer to the deleteListing in admin.js to see an example
-    
     // axios.get("/api/viewListings").then(function (response) {
     //   setListings(response.data.items); // store the listings in the state variable array 'listings'
-    // });
+    if(filterType == null || filterType == ""){
+      axios.get("/api/viewListings").then(function (response) {
+        setListings(response.data.items); // store the listings in the state variable array 'listings'
+      });
+    }else {
+      //filters the listings to only display the type
+      axios.get(`/api/viewListings/?type=${filterType}`).then(function(response){
+        setListings(response.data.items);
+      })
+    }
   }
+
+
+
 
   return (
     <div>
@@ -70,7 +65,7 @@ function Feed() {
               onChange={(e) => {
                 setFilter(e.target.value);
                 window.localStorage.setItem("filter", e.target.value);
-                filterListings();
+                loadListings();
               }}
               class="form-control"
               id="filterType"
