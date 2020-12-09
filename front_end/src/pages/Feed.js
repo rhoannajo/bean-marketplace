@@ -33,9 +33,9 @@ function Feed() {
   function loadListings() {
     // get all the listings to display in the feed
     let filterType = window.localStorage.getItem('filter');
-    // axios.get("/api/viewListings").then(function (response) {
-    //   setListings(response.data.items); // store the listings in the state variable array 'listings'
+
     if(filterType == null || filterType == ""){
+      //displays all of the listings to the feed
       axios.get("/api/viewListings").then(function (response) {
         setListings(response.data.items); // store the listings in the state variable array 'listings'
       });
@@ -46,8 +46,6 @@ function Feed() {
       })
     }
   }
-
-
 
 
   return (
