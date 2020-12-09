@@ -19,56 +19,53 @@ function Feed() {
     // filling the filter dropdown with last value
     setFilter(window.localStorage.getItem("filter"));
 
+    const handleWebsocketMessage = (messageEvent) => {
+      if (JSON.stringify(messageEvent.data) === '"Listings Updated"') {
+        loadListings();
+        document.getElementById("feedLink").click(); // refreshing the page by clicking the navbar link
+      }
+    };
+
     // listener to update feed when listings are updated
     websocket.addEventListener("message", handleWebsocketMessage);
   }, []);
 
-  const handleWebsocketMessage = (messageEvent) => {
-    if (JSON.stringify(messageEvent.data) == '"Listings Updated"') {
-      loadListings();
-      document.getElementById("feedLink").click(); // refreshing the page by clicking the navbar link
-    }
-  };
-
   function loadListings() {
     // get all the listings to display in the feed
-    let filterType = window.localStorage.getItem('filter');
-    // axios.get("/api/viewListings").then(function (response) {
-    //   setListings(response.data.items); // store the listings in the state variable array 'listings'
-    if(filterType == null || filterType == ""){
+    let filterType = window.localStorage.getItem("filter"); // getting the last set filter (for remembering a "session's" last filter)
+
+    if (filterType === null || filterType === "") {
+      // if filter is "", get All the listings (all types)
       axios.get("/api/viewListings").then(function (response) {
         setListings(response.data.items); // store the listings in the state variable array 'listings'
       });
-    }else {
-      //filters the listings to only display the type
-      axios.get(`/api/viewListings/?type=${filterType}`).then(function(response){
-        setListings(response.data.items);
-      })
+    } else {
+      //filters the listings to only display one type
+      axios
+        .get(`/api/viewListings/?type=${filterType}`)
+        .then(function (response) {
+          setListings(response.data.items);
+        });
     }
   }
-
-
-
 
   return (
     <div>
       <h2 class="p-1">Feed Page</h2>
-      {/* <button onClick={send()}>button</button> */}
       <div class="p-3">
         <form class="mx-auto text-left card bg-light px-3 py-1">
           <div class="form-group">
-            <label for="filterType">
+            <label for="selectFilter">
               <b>Filter by Type:</b>
             </label>
             <select
-              id= "selectFilter"
+              id="selectFilter"
               onChange={(e) => {
                 setFilter(e.target.value);
                 window.localStorage.setItem("filter", e.target.value);
                 loadListings();
               }}
               class="form-control"
-              id="filterType"
               value={filter}
             >
               <option value="" selected>
@@ -94,9 +91,6 @@ function Feed() {
                       <h5>{item.title}</h5>
                       <hr class="p-0 m-0"></hr>
                       <span class="caps">
-                        {/* <i
-                          class={`fa fa-${item.type} fa-lg typeColor ${item.type}Color`}
-                        ></i>{" "} */}
                         {item.type}
                       </span>
                       <span>${item.price}</span>

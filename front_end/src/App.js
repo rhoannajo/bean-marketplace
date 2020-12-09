@@ -5,8 +5,6 @@ import Feed from "./pages/Feed";
 import Home from "./pages/Home";
 import "./App.css";
 
-const websocket = new WebSocket("ws://localhost:1234/ws");
-
 // React components
 function App() {
   document.title = "Bean Marketplace";

@@ -26,13 +26,13 @@ function Admin() {
     setDescription(window.localStorage.getItem("description"));
 
     // displaying the post, edit, and delete confirmation popup
-    if (window.localStorage.getItem("popUp") == "listed") {
+    if (window.localStorage.getItem("popUp") === "listed") {
       document.getElementById("listed").click();
       window.localStorage.setItem("popUp", "");
-    } else if (window.localStorage.getItem("popUp") == "deleted") {
+    } else if (window.localStorage.getItem("popUp") === "deleted") {
       document.getElementById("deleted").click();
       window.localStorage.setItem("popUp", "");
-    } else if (window.localStorage.getItem("popUp") == "edited") {
+    } else if (window.localStorage.getItem("popUp") === "edited") {
       document.getElementById("edited").click();
       window.localStorage.setItem("popUp", "");
     }
@@ -73,7 +73,7 @@ function Admin() {
       document.getElementById("input-price").className =
         "form-control is-invalid";
       return false;
-    } else if (price != parseInt(price, 10)) {
+    } else if (price > parseInt(price, 10)) {
       // checking that price is an integer value
       setPriceError("Please insert a whole number for price!");
       document.getElementById("input-price").className =
