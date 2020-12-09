@@ -43,7 +43,7 @@ function Feed() {
     // use filter type in the api.post url to get filtered results
     let filterType = window.localStorage.getItem('filter');
 
-    alert(filterType); 
+    alert('selected type = '+filterType); 
 
     // Change below to filter by query string args like for deleteListing in admin
 
