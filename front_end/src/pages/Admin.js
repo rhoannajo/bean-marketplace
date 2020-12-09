@@ -483,9 +483,9 @@ function Admin() {
               <h6 class="display-5 px-1 pb-2">
                 Post Id: {window.localStorage.getItem("deletedPostId")}
               </h6>
-              <a class="btn btn-warning" href="/admin">
+              <a class="btn btn-info" href="/admin">
                 {" "}
-                <i class="fa fa-trash fa-lg"></i> Post Listing
+                <i class="fa fa-pencil-square fa-lg"></i> Post Listing
               </a>
               &nbsp;
               <a class="btn btn-primary" href="/feed">

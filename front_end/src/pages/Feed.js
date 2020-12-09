@@ -90,9 +90,7 @@ function Feed() {
                     <div class="mx-1 my-2 card bg-body">
                       <h5>{item.title}</h5>
                       <hr class="p-0 m-0"></hr>
-                      <span class="caps">
-                        {item.type}
-                      </span>
+                      <span class="caps">{item.type}</span>
                       <span>${item.price}</span>
                       <span>{item.description}</span>
                       <span class="small">{item.date}</span>
@@ -101,6 +99,26 @@ function Feed() {
                 ))}
             </div>
           </div>
+          {listings.length === 0 && (
+            <div class="border border-dark bg-light rounded p-2">
+              <h4 class="caps">
+                <i class="fa fa-exclamation-triangle fa-lg text-danger"></i> No
+                Posted Listings{" "}
+                {!(
+                  window.localStorage.getItem("filter") === null ||
+                  window.localStorage.getItem("filter") === ""
+                ) && `For Type ${window.localStorage.getItem("filter")} `}
+                Yet!
+              </h4>
+              <h5>
+                Check back later or post a listing:{" "}
+                <a class="btn btn-info" href="/admin">
+                  {" "}
+                  <i class="fa fa-pencil-square"></i> Post Listing
+                </a>
+              </h5>
+            </div>
+          )}
         </div>
       </div>
     </div>
