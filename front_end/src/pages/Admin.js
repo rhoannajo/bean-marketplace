@@ -50,24 +50,26 @@ function Admin() {
   }
 
   function validation() {
-    var titleLength = document.getElementById("title").value;
-
-    if (title === null || title === "" || titleLength === 0) {
+    if (title === null || title === "" || title === " ") {
       alert("Please insert a title!");
       return false;
-    }
-    if(type != ""){
+    } else if(type === null || type === "" || type === " "){
       alert("Please select a type!");
       return false;
-    }
-    if (price === null || price === "" || price === " ") {
+    } else if (price === null || price === "" || price === " "){
       alert("Please insert a price!");
       return false;
-    }else if (price < 0 || price > 2147483647){
-      alert("Please insert a valid price!");
+    } else if (price === parseInt(price, 10)) {
+      alert(price);
+      alert("Please insert a valid number!");
       return false;
-    }
-    if (description === null || description === "" || description === " ") {
+    } else if (price <= 0) {
+      alert("Please insert a price over $0");
+      return false;
+    } else if (price > 2147483647) {
+      alert(("Please insert a lower price, the maximum is $2,147,483,647!"));
+      return false;
+    } else if (description === null || description === "" || description === " ") {
       alert("Please insert a description!");
       return false;
     }
@@ -133,34 +135,8 @@ function Admin() {
   }
 
   function editListing() {
-    //deleteListing();
-    //postListing();
-    let id;
-    axios
-      .post('/api/editListing/')
-      .then(function () {
-        id = getCookie("postId");
-        deleteCookie("postId");
-        window.localStorage.clear();
-        window.localStorage.setItem("id", id);
-      })
-      .then(function (response) {
-        id = response.data.items[0].entryId;
-      })
-      .then(function () {
-        document.cookie = "postId=" + id + "; Max-Age=86400"; // storing posted listing in cookies
-        window.localStorage.setItem("title", title);
-        window.localStorage.setItem("type", type);
-        window.localStorage.setItem("price", price);
-        window.localStorage.setItem("description", description);
-
-        window.localStorage.setItem("popUp", "listed");
-
-        websocket.send("Listings Updated");
-
-        window.location.reload(false);
-      });
-
+    deleteListing();
+    postListing();
   }
 
   function closePopUp(name) {
@@ -339,12 +315,12 @@ function Admin() {
                   <div className="text-center">
                     <button
                       type="button"
-                      onClick={() => editListing()}
+                      onClick={editListing}
                       id="submit"
                       class="btn beanButton"
                     >
                       <b>
-                        <i class="fa fa-paper-plane"></i> Submit
+                        <i class="fa fa-paper-edit"></i> Submit
                       </b>
                     </button>
                     &nbsp;
@@ -366,10 +342,11 @@ function Admin() {
         })()}
       </div>
       <div class="w-100">
-        <Popup modal trigger={<button  id="listed">Listed</button>}>
+        <Popup modal trigger={<button hidden id="listed">Listed</button>}>
           <div class="container h-100 d-flex justify-content-center text-center">
             <div class="jumbotron my-auto beanPopUp border border-dark p-4">
               <button
+                hidden
                 type="button"
                 class="btn topRight"
                 onClick={() => closePopUp("listed")}
