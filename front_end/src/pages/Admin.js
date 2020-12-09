@@ -3,11 +3,6 @@ import axios from "axios";
 
 import Popup from "reactjs-popup";
 
-// *** Noticing weird issue with posts not going through on Safari
-// Maybe Switch from axios to "http" or another library
-
-const uuidv4 = require("uuid/v4"); // used to create random ids for each listing
-
 const websocket = new WebSocket("ws://localhost:1234/ws");
 
 function Admin() {
@@ -16,11 +11,14 @@ function Admin() {
     document.getElementById("home").classList.remove("active");
     document.getElementById("admin").classList.add("active");
     document.getElementById("feed").classList.remove("active");
+
+    // filling out edit form with listing's values
     setTitle(window.localStorage.getItem("title"));
     setType(window.localStorage.getItem("type"));
     setPrice(window.localStorage.getItem("price"));
     setDescription(window.localStorage.getItem("description"));
 
+    // displaying the post, edit, and delete confirmation popup
     if (window.localStorage.getItem("popUp") == "listed") {
       document.getElementById("listed").click();
       window.localStorage.setItem("popUp", "");
@@ -38,9 +36,9 @@ function Admin() {
   const [type, setType] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [postId, setPostId] = React.useState("");
 
   function getCookie(key) {
+    // function to get value of a cookie, used to store postId in a persistent way
     const regex = new RegExp(
       `/(?:(?:^|.*;s*)${key}s*=s*([^;]*).*$)|^.*$/, "$1"`
     );
@@ -48,31 +46,37 @@ function Admin() {
   }
 
   function deleteCookie(key) {
+    // function to delete a cookie, used after a listing is deleted
     document.cookie = key + "=; Max-Age=0";
     window.location.reload(false);
   }
 
   function validation() {
+    // validates forms to make sure all inputs are valid
     if (title === null || title === "" || title === " ") {
       alert("Please insert a title!");
       return false;
-    } else if(type === null || type === "" || type === " "){
+    } else if (type === null || type === "" || type === " ") {
       alert("Please select a type!");
       return false;
-    } else if (price === null || price === "" || price === " "){
+    } else if (price === null || price === "" || price === " ") {
       alert("Please insert a price!");
       return false;
-    } else if (price === parseInt(price, 10)) {
-      alert(price);
-      alert("Please insert a valid number!");
+    } else if (price != parseInt(price, 10)) {
+      // checking that price is an integer value
+      alert("Please insert a whole number for price!");
       return false;
     } else if (price <= 0) {
       alert("Please insert a price over $0!");
       return false;
     } else if (price > 2147483647) {
-      alert(("Please insert a lower price, the maximum is $2,147,483,647!"));
+      alert("Please insert a lower price, the maximum is $2,147,483,647!");
       return false;
-    } else if (description === null || description === "" || description === " ") {
+    } else if (
+      description === null ||
+      description === "" ||
+      description === " "
+    ) {
       alert("Please insert a description!");
       return false;
     }
@@ -80,101 +84,107 @@ function Admin() {
   }
 
   function postListing() {
+    // adds a listing to the batabase
     //validates input fields are not empty and correct
     let status = validation();
 
-    if(status === true){
-      // adds a new listing
-    let id;
-    axios
-      .post("/api/createListing", {
-        title: title,
-        type: type,
-        price: price,
-        description: description,
-      })
-      .then(function (response) {
-        id = response.data.items[0].entryId;
-        // alert(JSON.stringify(response));
-      })
-      .then(function () {
-        document.cookie = "postId=" + id + "; Max-Age=86400"; // storing posted listing in cookies
-        window.localStorage.setItem("title", title);
-        window.localStorage.setItem("type", type);
-        window.localStorage.setItem("price", price);
-        window.localStorage.setItem("description", description);
+    if (status === true) {
+      // valid form so will new listing to backend
+      let id;
+      axios
+        .post("/api/createListing", {
+          title: title,
+          type: type,
+          price: price,
+          description: description,
+        })
+        .then(function (response) {
+          id = response.data.items[0].entryId;
+        })
+        .then(function () {
+          document.cookie = "postId=" + id + "; Max-Age=86400"; // storing postId of listing in cookies
+          window.localStorage.setItem("title", title); // storing fields to display in edit form
+          window.localStorage.setItem("type", type);
+          window.localStorage.setItem("price", price);
+          window.localStorage.setItem("description", description);
 
-        window.localStorage.setItem("popUp", "listed");
+          window.localStorage.setItem("popUp", "listed"); // setting "listed" to show post success popUp after refresh
 
-        websocket.send("Listings Updated");
+          websocket.send("Listings Updated"); // send websocket message to update ever user's feed real-time
 
-        window.location.reload(false);
-        // document.getElementById('listed').click();
-      });
+          window.location.reload(false); // reloading the page to display the edit listing form
+        });
     }
   }
 
   function deleteListing() {
-    // removes a listing
+    // removes a listing from database
     axios
       .post(`/api/deleteListing/?id=${getCookie("postId")}`)
-      .then(function (response) {
-        // alert(JSON.stringify(response));
-      })
       .then(function () {
         let deletedPostId = getCookie("postId");
         let deletedTitle = window.localStorage.getItem("title");
         deleteCookie("postId");
         window.localStorage.clear();
 
-        window.localStorage.setItem("popUp", "deleted");
-        window.localStorage.setItem("deletedPostId", deletedPostId);
+        window.localStorage.setItem("popUp", "deleted"); // setting "delete" to show post successful delete after refresh
+        window.localStorage.setItem("deletedPostId", deletedPostId); // storing values to display in popup
         window.localStorage.setItem("deletedTitle", deletedTitle);
 
-        websocket.send("Listings Updated");
+        websocket.send("Listings Updated"); // send websocket message to update ever user's feed real-time
 
-        window.location.reload(false);
+        window.location.reload(false); // reloading the page to return to postLisitng screen
       });
   }
 
   function editListing() {
+    // edits a listing in the batabase
     let id;
     let status = validation();
-    if(status === true){
+    if (status === true) {
+      // checking that form is valid
       let ls = window.localStorage;
-      if (title===ls.getItem('title') && type===ls.getItem('type') && price===ls.getItem('price') && description===ls.getItem('description')) {
-        alert('Please make a change to update your listing!')
+
+      // checking that if listing hasn't been edited, no need to update
+      if (
+        title === ls.getItem("title") &&
+        type === ls.getItem("type") &&
+        price === ls.getItem("price") &&
+        description === ls.getItem("description")
+      ) {
+        alert("Please make a change to update your listing!");
+        return;
       }
-    axios
-      .post(`/api/editListing/?id=${getCookie('postId')}`, {
-        title: title,
-        type: type,
-        price: price,
-        description: description,
-        entryId: getCookie('postId')
-      })
-      .then(function (response) {
-        id = response.data.items[0].entryId;
-        // alert(JSON.stringify(response.data.items[0].entryId) +' '+getCookie('postId'));
-      })
-      .then(function () {
-        document.cookie = "postId=" + id + "; Max-Age=86400"; // storing posted listing in cookies
-        window.localStorage.setItem("title", title);
-        window.localStorage.setItem("type", type);
-        window.localStorage.setItem("price", price);
-        window.localStorage.setItem("description", description);
 
-        window.localStorage.setItem("popUp", "edited");
+      axios
+        .post(`/api/editListing/?id=${getCookie("postId")}`, {
+          title: title,
+          type: type,
+          price: price,
+          description: description,
+          entryId: getCookie("postId"),
+        })
+        .then(function (response) {
+          id = response.data.items[0].entryId;
+        })
+        .then(function () {
+          document.cookie = "postId=" + id + "; Max-Age=86400"; // storing posted listing in cookies
+          window.localStorage.setItem("title", title); // storing fields to display in edit form
+          window.localStorage.setItem("type", type);
+          window.localStorage.setItem("price", price);
+          window.localStorage.setItem("description", description);
 
-        websocket.send("Listings Updated");
+          window.localStorage.setItem("popUp", "edited"); // setting popUp to display successful edit after reload
 
-        window.location.reload(false);
-        // document.getElementById('listed').click();
-      });
+          websocket.send("Listings Updated"); // update all users feeds realtime
+
+          window.location.reload(false); // reloading the page to update value and display success popUp
+        });
     }
   }
 
   function closePopUp(name) {
+    // function to close a pop window
     window.localStorage.setItem(name, "");
     document.getElementById(name).click();
   }
@@ -187,7 +197,6 @@ function Admin() {
           if (getCookie("postId") === "") {
             return (
               <form
-                // onSubmit={handleClick}
                 id="listingForm"
                 class="mx-auto text-left card p-3 bg-light"
               >
@@ -276,7 +285,6 @@ function Admin() {
             return (
               <div class="">
                 <form
-                  // onSubmit={handleClick}
                   id="listingForm"
                   class="mx-auto text-left card p-3 bg-light"
                 >
@@ -377,7 +385,14 @@ function Admin() {
         })()}
       </div>
       <div class="w-100">
-        <Popup modal trigger={<button hidden id="listed">Listed</button>}>
+        <Popup
+          modal
+          trigger={
+            <button hidden id="listed">
+              Listed
+            </button>
+          }
+        >
           <div class="container h-100 d-flex justify-content-center text-center">
             <div class="jumbotron my-auto beanPopUp border border-dark p-4">
               <button
@@ -392,7 +407,9 @@ function Admin() {
               <h2 class="display-5 py-1 px-1">
                 Listing: {window.localStorage.getItem("title")} Added!
               </h2>
-              <h6 class="display-5 px-1 pb-2">Post Id: {getCookie("postId")}</h6>
+              <h6 class="display-5 px-1 pb-2">
+                Post Id: {getCookie("postId")}
+              </h6>
               <a class="btn btn-warning" href="/admin">
                 {" "}
                 <i class="fa fa-edit fa-lg"></i> Edit Listing
@@ -461,7 +478,7 @@ function Admin() {
                 Listing: {window.localStorage.getItem("title")} Edited!
               </h2>
               <h6 class="display-5 px-1 pb-2">
-                Post Id: {getCookie('postId')}
+                Post Id: {getCookie("postId")}
               </h6>
               <a class="btn btn-warning" href="/admin">
                 {" "}
