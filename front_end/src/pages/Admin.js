@@ -6,6 +6,13 @@ import Popup from "reactjs-popup";
 const websocket = new WebSocket("ws://localhost:1234/ws");
 
 function Admin() {
+  // state variables
+  const [title, setTitle] = React.useState("");
+  const [type, setType] = React.useState("");
+  const [price, setPrice] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [priceError, setPriceError] = React.useState("");
+
   // set active nav link on page load
   React.useEffect(() => {
     document.getElementById("home").classList.remove("active");
@@ -31,12 +38,6 @@ function Admin() {
     }
   }, []);
 
-  // state variables
-  const [title, setTitle] = React.useState("");
-  const [type, setType] = React.useState("");
-  const [price, setPrice] = React.useState("");
-  const [description, setDescription] = React.useState("");
-
   function getCookie(key) {
     // function to get value of a cookie, used to store postId in a persistent way
     const regex = new RegExp(
@@ -52,32 +53,51 @@ function Admin() {
   }
 
   function validation() {
+    // reseting the invalid fields to no longer ber red
+    document.getElementById("input-title").className = "form-control";
+    document.getElementById("input-type").className = "form-control";
+    document.getElementById("input-price").className = "form-control";
+    document.getElementById("input-description").className = "form-control";
+
     // validates forms to make sure all inputs are valid
     if (title === null || title === "" || title === " ") {
-      alert("Please insert a title!");
+      document.getElementById("input-title").className =
+        "form-control is-invalid";
       return false;
     } else if (type === null || type === "" || type === " ") {
-      alert("Please select a type!");
+      document.getElementById("input-type").className =
+        "form-control is-invalid";
       return false;
     } else if (price === null || price === "" || price === " ") {
-      alert("Please insert a price!");
+      setPriceError("Please insert a price!");
+      document.getElementById("input-price").className =
+        "form-control is-invalid";
       return false;
     } else if (price != parseInt(price, 10)) {
       // checking that price is an integer value
-      alert("Please insert a whole number for price!");
+      setPriceError("Please insert a whole number for price!");
+      document.getElementById("input-price").className =
+        "form-control is-invalid";
       return false;
     } else if (price <= 0) {
-      alert("Please insert a price over $0!");
+      setPriceError("Please insert a price over $0!");
+      document.getElementById("input-price").className =
+        "form-control is-invalid";
       return false;
     } else if (price > 2147483647) {
-      alert("Please insert a lower price, the maximum is $2,147,483,647!");
+      setPriceError(
+        "Please insert a lower price, the maximum is $2,147,483,647!"
+      );
+      document.getElementById("input-price").className =
+        "form-control is-invalid";
       return false;
     } else if (
       description === null ||
       description === "" ||
       description === " "
     ) {
-      alert("Please insert a description!");
+      document.getElementById("input-description").className =
+        "form-control is-invalid";
       return false;
     }
     return true;
@@ -217,6 +237,7 @@ function Admin() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                   />
+                  <div class="invalid-feedback">Please insert a title!</div>
                 </div>
 
                 <div className="form-group">
@@ -238,6 +259,7 @@ function Admin() {
                     <option value="bottoms">Bottom</option>
                     <option value="footwear">Footwear</option>
                   </select>
+                  <div class="invalid-feedback">Please insert a type!</div>
                 </div>
 
                 <div className="form-group">
@@ -252,6 +274,9 @@ function Admin() {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                   />
+                  <div id="priceError" class="invalid-feedback">
+                    {priceError}
+                  </div>
                 </div>
 
                 <div className="form-group">
@@ -265,6 +290,9 @@ function Admin() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />
+                  <div class="invalid-feedback">
+                    Please insert a description!
+                  </div>
                 </div>
 
                 <div className="text-center">
@@ -305,6 +333,7 @@ function Admin() {
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                     />
+                    <div class="invalid-feedback">Please insert a title!</div>
                   </div>
 
                   <div className="form-group">
@@ -326,6 +355,7 @@ function Admin() {
                       <option value="bottoms">Bottoms</option>
                       <option value="footwear">Footwear</option>
                     </select>
+                    <div class="invalid-feedback">Please insert a type!</div>
                   </div>
 
                   <div className="form-group">
@@ -340,6 +370,9 @@ function Admin() {
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
                     />
+                    <div id="priceError" class="invalid-feedback">
+                      {priceError}
+                    </div>
                   </div>
 
                   <div className="form-group">
@@ -353,6 +386,9 @@ function Admin() {
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                     />
+                    <div class="invalid-feedback">
+                      Please insert a description!
+                    </div>
                   </div>
 
                   <div className="text-center">
