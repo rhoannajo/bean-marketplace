@@ -50,18 +50,24 @@ function Admin() {
   }
 
   function validation() {
-    if (title === null || title === "") {
+    var titleLength = document.getElementById("title").value;
+
+    if (title === null || title === "" || titleLength === 0) {
       alert("Please insert a title!");
       return false;
     }
-    if (price === null || price === "") {
-      alert("Please insert a price!");
-      return false;
-    }else if (price > 2147483647){
-      alert("The price is too big!");
+    if(type != ""){
+      alert("Please select a type!");
       return false;
     }
-    if (description === null || description === "") {
+    if (price === null || price === "" || price === " ") {
+      alert("Please insert a price!");
+      return false;
+    }else if (price < 0 || price > 2147483647){
+      alert("Please insert a valid price!");
+      return false;
+    }
+    if (description === null || description === "" || description === " ") {
       alert("Please insert a description!");
       return false;
     }
@@ -69,7 +75,11 @@ function Admin() {
   }
 
   function postListing() {
-    // adds a new listing
+    //validates input fields are not empty and correct
+    var status = validation();
+
+    if(status === true){
+      // adds a new listing
     let id;
     axios
       .post("/api/createListing", {
@@ -96,6 +106,7 @@ function Admin() {
         window.location.reload(false);
         // document.getElementById('listed').click();
       });
+    }
   }
 
   function deleteListing() {
