@@ -79,7 +79,11 @@ function Feed() {
           </div>
         </form>
         <div class="mx-auto card bg-light my-3 px-3 py-1 text-center">
-          <h2>Listings:</h2>
+        <h3 className="text-center">
+                  <b>
+                    <u>Listings:</u>
+                  </b>
+                </h3>
           <div class="container-fluid">
             <div class="row">
               {listings
@@ -101,7 +105,7 @@ function Feed() {
           </div>
           {listings.length === 0 && (
             <div class="border border-dark bg-light rounded p-2">
-              <h4 class="caps">
+              <h5 class="caps">
                 <i class="fa fa-exclamation-triangle fa-lg text-danger"></i> No
                 Posted Listings{" "}
                 {!(
@@ -109,7 +113,7 @@ function Feed() {
                   window.localStorage.getItem("filter") === ""
                 ) && `For Type ${window.localStorage.getItem("filter")} `}
                 Yet!
-              </h4>
+              </h5>
               <h5>
                 Check back later or post a listing:{" "}
                 <a class="btn btn-info" href="/admin">

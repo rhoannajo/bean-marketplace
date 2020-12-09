@@ -10,18 +10,10 @@ background-position:0 0, 40px 40px;
   max-height: 3em;
 }
 
-.typeColor {
-  -webkit-text-stroke: 0.5px #292b2c;
-  /* -webkit-text-fill-color: transparent; */
-}
-.carColor {
-  color: royalblue;
-}
-.truckColor {
-  color: lightgreen;
-}
-.motorcycleColor {
-  color: crimson;
+.homePic {
+  margin: auto;
+  width: 40vh;
+  object-fit: cover;
 }
 
 .caps {
