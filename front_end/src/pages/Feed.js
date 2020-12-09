@@ -106,6 +106,7 @@ function Feed() {
                       </span>
                       <span>${item.price}</span>
                       <span>{item.description}</span>
+                      <span class="small">{item.date}</span>
                     </div>
                   </div>
                 ))}

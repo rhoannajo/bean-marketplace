@@ -117,6 +117,7 @@ function Admin() {
           type: type,
           price: price,
           description: description,
+          date: "Posted " + new Date().toLocaleString().toString(),
         })
         .then(function (response) {
           id = response.data.items[0].entryId;
@@ -183,6 +184,7 @@ function Admin() {
           price: price,
           description: description,
           entryId: getCookie("postId"),
+          date: "Edited " + new Date().toLocaleString().toString(),
         })
         .then(function (response) {
           id = response.data.items[0].entryId;
