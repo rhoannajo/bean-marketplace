@@ -11,7 +11,7 @@ function App() {
   document.title = "Bean Marketplace";
   return (
     <div className="App">
-      {/* including bootstrap css library */}
+      {/* including bootstrap css library and FontAwesome for icons */}
       <link
         rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -27,7 +27,6 @@ function App() {
         rel="stylesheet"
         href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
       ></link>
-      {/* <h1>Final Project App</h1> */}
       <div class="bg-dark">
         <a href="/">
           <img

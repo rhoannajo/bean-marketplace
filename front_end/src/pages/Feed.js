@@ -2,10 +2,10 @@ import React from "react";
 import axios from "axios";
 
 // imports for type icons
-import tops from '../images/tops.png'
-import outerwear from '../images/outerwear.png'
-import bottoms from '../images/bottoms.png'
-import footwear from '../images/footwear.png'
+import tops from "../images/tops.png";
+import outerwear from "../images/outerwear.png";
+import bottoms from "../images/bottoms.png";
+import footwear from "../images/footwear.png";
 
 const websocket = new WebSocket("ws://localhost:1234/ws");
 
@@ -96,18 +96,30 @@ function Feed() {
                 .slice(0)
                 .reverse()
                 .map((item) => (
-                  <a class="text-dark col-sm-12 col-md-6 col-xl-3 text-center divA" href={`/listing/?id=${item.entryId}`}>
-
+                  <a
+                    class="text-dark col-sm-12 col-md-6 col-xl-3 text-center divA"
+                    href={`/listing/?id=${item.entryId}`}
+                  >
                     <div class="mx-1 my-2 card bg-body">
-                      <h5><b>Title: </b>{item.title}</h5>
+                      <h5>
+                        <b>Title: </b>
+                        {item.title}
+                      </h5>
                       <hr class="p-0 m-0"></hr>
-                      <span class="caps"><b><div class={`${item.type} logoPic`}></div>Type: </b>{item.type}</span>
+                      <span class="caps">
+                        <b>
+                          <div class={`${item.type} logoPic`}></div>Type:{" "}
+                        </b>
+                        {item.type}
+                      </span>
                       <span>${item.price}</span>
-                      <span><b>Description: </b>{item.description}</span>
+                      <span>
+                        <b>Description: </b>
+                        {item.description}
+                      </span>
                       <span class="small">{item.date}</span>
                     </div>
-                    </a>
-
+                  </a>
                 ))}
             </div>
           </div>
@@ -133,11 +145,11 @@ function Feed() {
           )}
         </div>
       </div>
-    {/* To silence the unused warnings */}
-      <img hidden class={tops}alt="tops"></img>
+      {/* To silence the unused warnings */}
+      <img hidden class={tops} alt="tops"></img>
       <img hidden class={bottoms} alt="bottoms"></img>
       <img hidden class={outerwear} alt="outerwear"></img>
-      <img hidden class={footwear} alt="footwear"></img>  
+      <img hidden class={footwear} alt="footwear"></img>
     </div>
   );
 }
