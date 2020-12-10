@@ -45,14 +45,6 @@ function Listing() {
       });
   }
 
-  function getCookie(key) {
-    // function to get value of a cookie, used to store postId in a persistent way
-    const regex = new RegExp(
-      `/(?:(?:^|.*;s*)${key}s*=s*([^;]*).*$)|^.*$/, "$1"`
-    );
-    return document.cookie.replace(regex).replace(`${key}=`, "");
-  }
-
   return (
     <div class="p-3">
       <h2 class="p-1">
