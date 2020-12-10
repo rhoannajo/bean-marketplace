@@ -68,9 +68,11 @@ function Listing() {
                   </u>
                 </b>
               </h3>
+              <hr></hr>
               <h5 class="caps">
+                <div class={`${item.type} logoPic`}></div>
                 <b>Type: </b>
-                {item.type}<div class={`${item.type} logoPic`}></div>
+                {item.type}
               </h5>
               <h5>
                 <b>$</b>

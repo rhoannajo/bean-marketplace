@@ -101,7 +101,7 @@ function Feed() {
                     <div class="mx-1 my-2 card bg-body">
                       <h5><b>Title: </b>{item.title}</h5>
                       <hr class="p-0 m-0"></hr>
-                      <span class="caps"><b>Type: </b>{item.type}<div class={`${item.type} logoPic`}></div></span>
+                      <span class="caps"><b><div class={`${item.type} logoPic`}></div>Type: </b>{item.type}</span>
                       <span>${item.price}</span>
                       <span><b>Description: </b>{item.description}</span>
                       <span class="small">{item.date}</span>
