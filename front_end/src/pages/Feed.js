@@ -96,7 +96,7 @@ function Feed() {
                 .slice(0)
                 .reverse()
                 .map((item) => (
-                  <a class="col-sm-12 col-md-6 col-xl-3 text-center divA" href={`/listing/?id=${item.entryId}`}>
+                  <a class="text-dark col-sm-12 col-md-6 col-xl-3 text-center divA" href={`/listing/?id=${item.entryId}`}>
 
                     <div class="mx-1 my-2 card bg-body">
                       <h5><b>Title: </b>{item.title}</h5>

@@ -58,12 +58,11 @@ body {
   position: absolute;
   left: 0;
   top: 0;
-  color:  #303030;
-  text-decoration-color: black !important;
 }
 
 .divA :hover {
   color: black !important;
+  text-decoration-color: black !important;
 }
 
 .App {
