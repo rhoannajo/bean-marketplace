@@ -32,7 +32,7 @@ function App() {
           <img
             id="logo"
             class="rounded p-1"
-            src={require("./images/BeanPurpleLogo2.png")}
+            src={require("./images/BeanWhiteLogo.png")}
             alt=""
           ></img>
         </a>
