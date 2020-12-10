@@ -1,6 +1,12 @@
 import React from "react";
 import axios from "axios";
 
+// imports for type icons
+import tops from "../images/tops.png";
+import outerwear from "../images/outerwear.png";
+import bottoms from "../images/tops.png";
+import footwear from "../images/tops.png";
+
 const websocket = new WebSocket("ws://localhost:1234/ws");
 
 function Listing() {
@@ -64,7 +70,7 @@ function Listing() {
               </h3>
               <h5 class="caps">
                 <b>Type: </b>
-                {item.type}
+                {item.type}<div class={`${item.type} logoPic`}></div>
               </h5>
               <h5>
                 <b>$</b>
@@ -75,12 +81,20 @@ function Listing() {
                 {item.description}
               </h5>
               <h6>{item.date}</h6>
+              {/* To silence the Js warnings */}
+              <img hidden class={tops} alt="tops"></img>
+              <img hidden class={bottoms} alt="bottoms"></img>
+              <img hidden class={outerwear} alt="outerwear"></img>
+              <img hidden class={footwear} alt="footwear"></img>
             </div>
           ))}
-        </div>{listings.length === 0 && (
-          <h5 class="p-3"><i class="fa fa-exclamation-triangle fa-lg text-danger"></i> Listing Does Not Exist or Was Deleted
-                </h5>
-      )}
+        </div>
+        {listings.length === 0 && (
+          <h5 class="p-3">
+            <i class="fa fa-exclamation-triangle fa-lg text-danger"></i> Listing
+            Does Not Exist or Was Deleted
+          </h5>
+        )}
       </div>
       <a class="btn btn-info" href="/feed">
         {" "}
