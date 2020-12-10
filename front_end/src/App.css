@@ -75,6 +75,22 @@ body {
   pointer-events: none;
 }
 
+.tops {
+  content:url(./images/tops.png);
+}
+
+.bottoms {
+  content:url(./images/bottoms.png);
+}
+
+.outerwear {
+  content:url(./images/outerwear.png);
+}
+
+.footwear {
+  content:url(./images/footwear.png);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

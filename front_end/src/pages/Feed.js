@@ -1,6 +1,12 @@
 import React from "react";
 import axios from "axios";
 
+// imports for type icons
+import tops from '../images/tops.png'
+import outerwear from '../images/outerwear.png'
+import bottoms from '../images/bottoms.png'
+import footwear from '../images/footwear.png'
+
 const websocket = new WebSocket("ws://localhost:1234/ws");
 
 function Feed() {
@@ -95,7 +101,7 @@ function Feed() {
                     <div class="mx-1 my-2 card bg-body">
                       <h5><b>Title: </b>{item.title}</h5>
                       <hr class="p-0 m-0"></hr>
-                      <span class="caps"><b>Type: </b>{item.type}</span>
+                      <span class="caps"><img class={`${item.type}`} alt={item.type}></img> <b>Type: </b>{item.type}</span>
                       <span>${item.price}</span>
                       <span><b>Description: </b>{item.description}</span>
                       <span class="small">{item.date}</span>
@@ -127,6 +133,11 @@ function Feed() {
           )}
         </div>
       </div>
+    {/* To silence the unused warnings */}
+      <img hidden class={tops}alt="tops"></img>
+      <img hidden class={bottoms} alt="bottoms"></img>
+      <img hidden class={outerwear} alt="outerwear"></img>
+      <img hidden class={footwear} alt="footwear"></img>  
     </div>
   );
 }
