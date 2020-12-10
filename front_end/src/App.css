@@ -1,9 +1,13 @@
 body {
-background-color:#def;
-background-image: radial-gradient(closest-side, transparent 98%, rgba(0,0,0,.1) 99%),
-radial-gradient(closest-side, transparent 98%, rgba(0,0,0,.05) 99%);
-background-size:80px 80px;
-background-position:0 0, 40px 40px;
+  background-color: #def;
+  background-image: radial-gradient(
+      closest-side,
+      transparent 98%,
+      rgba(0, 0, 0, 0.1) 99%
+    ),
+    radial-gradient(closest-side, transparent 98%, rgba(0, 0, 0, 0.05) 99%);
+  background-size: 80px 80px;
+  background-position: 0 0, 40px 40px;
 }
 
 #logo {
@@ -17,7 +21,7 @@ background-position:0 0, 40px 40px;
 }
 
 .caps {
-  text-transform:capitalize;
+  text-transform: capitalize;
 }
 
 .beanColor {
@@ -38,13 +42,28 @@ background-position:0 0, 40px 40px;
 }
 
 .postListingButton {
-  display:none;
+  display: none;
 }
 
 .topRight {
   position: absolute;
   top: 4px;
   right: 19px;
+}
+
+.divA {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  color:  #303030;
+  text-decoration-color: black !important;
+}
+
+.divA :hover {
+  color: black !important;
 }
 
 .App {

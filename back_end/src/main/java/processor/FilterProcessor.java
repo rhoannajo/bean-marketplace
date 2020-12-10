@@ -27,6 +27,8 @@ public class FilterProcessor implements Processor{
 
     if (Objects.nonNull(parsedUrl.getValue("title"))) list.removeIf(item -> !item.type.equals(parsedUrl.getValue("title")));
 
+    if (Objects.nonNull(parsedUrl.getValue("entryId"))) list.removeIf(item -> !item.entryId.equals(parsedUrl.getValue("entryId")));
+
     return new ResponseDto(new Date(), list, true);
   }
 }

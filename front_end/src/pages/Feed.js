@@ -79,27 +79,29 @@ function Feed() {
           </div>
         </form>
         <div class="mx-auto card bg-light my-3 px-3 py-1 text-center">
-        <h3 className="text-center">
-                  <b>
-                    <u>Listings:</u>
-                  </b>
-                </h3>
+          <h3 className="text-center">
+            <b>
+              <u>Listings:</u>
+            </b>
+          </h3>
           <div class="container-fluid">
             <div class="row">
               {listings
                 .slice(0)
                 .reverse()
                 .map((item) => (
-                  <div class="col-sm-12 col-md-6 col-xl-3 text-center">
+                  <a class="col-sm-12 col-md-6 col-xl-3 text-center divA" href={`/listing/?id=${item.entryId}`}>
+
                     <div class="mx-1 my-2 card bg-body">
-                      <h5>{item.title}</h5>
+                      <h5><b>Title: </b>{item.title}</h5>
                       <hr class="p-0 m-0"></hr>
-                      <span class="caps">{item.type}</span>
+                      <span class="caps"><b>Type: </b>{item.type}</span>
                       <span>${item.price}</span>
-                      <span>{item.description}</span>
+                      <span><b>Description: </b>{item.description}</span>
                       <span class="small">{item.date}</span>
                     </div>
-                  </div>
+                    </a>
+
                 ))}
             </div>
           </div>
