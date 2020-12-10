@@ -4,8 +4,8 @@ import axios from "axios";
 // imports for type icons
 import tops from '../images/tops.png'
 import outerwear from '../images/outerwear.png'
-import bottoms from '../images/tops.png'
-import footwear from '../images/tops.png'
+import bottoms from '../images/bottoms.png'
+import footwear from '../images/footwear.png'
 
 const websocket = new WebSocket("ws://localhost:1234/ws");
 
@@ -133,11 +133,11 @@ function Feed() {
           )}
         </div>
       </div>
-      {/* To silence the Js warnings */}
+    {/* To silence the unused warnings */}
       <img hidden class={tops}alt="tops"></img>
       <img hidden class={bottoms} alt="bottoms"></img>
       <img hidden class={outerwear} alt="outerwear"></img>
-      <img hidden class={footwear} alt="footwear"></img>
+      <img hidden class={footwear} alt="footwear"></img>  
     </div>
   );
 }
