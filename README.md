@@ -1,4 +1,4 @@
-# How to Run Bean Marketplace at locolhost port 3000
+# How to Run Bean Marketplace at localhost port 3000
 
 1. Database - Run MongoDb on default port
 
