@@ -21,7 +21,7 @@ public class RestServer {
         // Your Handlers go here
         get("/", (req, res) -> "Hello World");
 
-        Server instance = new Server();
+        RestServer instance = new RestServer();
         instance.runServer();
     }
 

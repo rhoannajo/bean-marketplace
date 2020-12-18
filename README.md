@@ -3,6 +3,13 @@
 1. Database - Run MongoDb on default port
 
 2. Backend - Run RestServer.java @ final-project-bean/back_end/src/main/java/RestServer.java
+    
+    If you get "Error opening socket" in the console, use your terminal to kill the process on port 1299
+         Example On MacOs:
+            1. in terminal enter "lsof -i tcp:1299"
+            2. Check the PID of procces then enter "kill -9 <PID>"
+            3. Now you can run the backend following step 2
+
 
 3. Frontend - follow instructions below
 
